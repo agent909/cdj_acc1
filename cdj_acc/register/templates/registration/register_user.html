@@ -40,12 +40,25 @@
 {% block body %}
 
     <div id="container">
-        <div class="row">
-            <div class="col-lg-12" style="font-size: 5ch;">
-                Create Additional User
+
+
+        <form method="POST" action="{% url 'register_user' %}">
+            {% csrf_token %}
+
+            {% if form.errors %}
+            <p>Error occured</p>
+            {% endif %}
+            
+            {{form}}
+            <input type="submit" value="Register"/>
+
+            <div class="row">
+                <div class="col-lg-12" style="font-size: 5ch;">
+                    Create Additional User
+                </div>
             </div>
-        </div>
-        <div class="row">
+        </form>
+        <!-- <div class="row">
             <div class="col-lg-4">
                 <label for="firstN">First name</label>
                 <input id="firstN" type="text" class="form-control">
@@ -89,7 +102,7 @@
                     Create User
                 </button>
             </div>
-        </div>
+        </div> -->
     </div>
 
 {% endblock %}

@@ -133,6 +133,8 @@ STATICFILES_DIRS = [
     # BASE_DIR,
 ]
 
+LOGIN_REDIRECT_URL = '/'
+
 # SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
 # TEMPLATE_DIRS = (
