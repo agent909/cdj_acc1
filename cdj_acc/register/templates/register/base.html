@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% load bootstrap3 %}
+        {% bootstrap_css %}
+        {% load static %}
+        <script src="{% static '/js/jquery-3.3.1.min.js' %}"></script>
+        {% bootstrap_javascript %}
+        {% bootstrap_messages %}
+        
+        <link rel="icon" href="{% static 'img/cdj_emblem.png' %}" type="image/x-icon"/>
+
+        <title>
+            {% block title %} 
+                <!--Title--> 
+            {%endblock %}
+        </title>
+
+        {% block head %}
+            <style>
+
+            </style>
+        {% endblock %}
+    
+    </head>
+
+
+
+
+    <body>
+
+
+        <nav class="navbar navbar-inverse" style="z-index:2;border-radius:unset;position:fixed;width:100%;box-shadow:0px 1px 10px 0px #2e6798">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/dashboard">
+                        <span style="color:#52af52;">C</span>
+                        <span>D</span>
+                        <span>J</span>
+                    </a>
+                </div>
+        
+                <ul class="nav navbar-nav">
+
+                    <form class="navbar-form navbar-left">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search Client">
+                        </div>
+                        <button type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </form>
+                    <!-- </li> -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            BOOKS <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="">Cash Receipt Journal</a></li>
+                            <li><a href="#">Cash Disbursement Journal</a></li>
+                            <li><a href="#">Sales Journal</a></li>
+                            <li><a href="#">Purchase Journal</a></li>
+                            <li><a href="#">General Journal</a></li>
+                            <li><a href="#">General Ledger</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active dropdown" style="border-left:10px solid;">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="badge">
+                                <span class="glyphicon glyphicon-user"></span>
+                            </span>
+                            Julius
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Advanced settings</a></li>
+                            <li><a href="#">Add account</a></li>
+                            <li><a href="/">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+        
+            </div>
+        </nav>
+
+        {% block body %}
+            <!--body-->
+        {% endblock %}
+
+    </body>
+</html>
