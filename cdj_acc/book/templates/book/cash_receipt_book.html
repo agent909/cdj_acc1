@@ -1,8 +1,10 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 
 {% block title %} Cash Receipt Book {% endblock %}
 
 {% block head %}
+
+
 
 <style>
     #header-fixed {
@@ -58,26 +60,26 @@
 {% block body %}
 <div id="main" style="padding: 0% 2%;" >
 
-    {% for message in get_flashed_messages() %}
-        {% if message == 'SUCCESS: Entry submitted' %}
-        <div class="alert alert-info" style="position: fixed;top: 18%;font-weight: 700;width: 30%;left: 67%;text-align: center;">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ message }}
-        </div>
-        {% else %}
+    <!-- {% for message in get_flashed_messages() %}
+        {% if message == 'SUCCESS: Entry submitted' %} -->
+        <!-- <div class="alert alert-info" style="position: fixed;top: 18%;font-weight: 700;width: 30%;left: 67%;text-align: center;">
+            <button type="button" class="close" data-dismiss="alert">&times;</button> -->
+            <!-- {{ message }} -->
+        <!-- </div> -->
+        <!-- {% else %}
         <div class="alert alert-danger" style="position: fixed;top: 18%;font-weight: 700;width: 30%;left: 67%;text-align: center;">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ message }}
-        </div>
+            <button type="button" class="close" data-dismiss="alert">&times;</button> -->
+            <!-- {{ message }} -->
+        <!-- </div>
         {% endif %}
-    {% endfor %}
+    {% endfor %} -->
 
 
     <div class="row" style="padding-top: 5%;">
 
         <div class="row" style="padding: 0 2%;font-size:medium;">
             <div class="col-lg-6">
-                Client Name: {% for name in client_name %} {{name+" "}} {% endfor %}
+                Client Name: <!--{% for name in client_name %} {{name+" "}} {% endfor %}-->
             </div>
         </div>
 
