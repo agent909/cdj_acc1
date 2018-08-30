@@ -1,0 +1,204 @@
+{% extends "index.html" %}
+
+{% block title %} Cash Receipt Book {% endblock %}
+
+{% block head %}
+
+<style>
+    #header-fixed {
+        position: fixed;
+        top: 0px; display:none;
+        background-color:white;
+        width:100%;
+    }
+
+    #entry_table{
+        margin-top: 8%;
+        padding: 10px;
+        box-shadow: 0px 0px 5px -2px;
+        border-radius: 5px;
+    }
+
+    .button_right {
+        width:100%;
+        margin-bottom:2px;
+    }
+
+    #particulars {
+        width:150px;
+    }
+
+    body {
+        background-color:#fffff5;
+    }
+</style>
+
+<!--<script src="{{url_for('static', filename='scripts/load_account.js')}}"></script>-->
+<script>
+    $("document").ready(function(){
+        var current_acc = "#account_receivable";
+
+        $("#exp1_button").click(function(){
+            alert("insert complete");
+        });
+
+        $("#chart_of_accounts").on('change',function(){
+            //alert("old:"+current_acc+", new:"+this.value)
+            $(current_acc).css("display","none");
+            $("#"+this.value).css("display","unset");
+            current_acc = "#"+this.value
+        });
+
+    });
+
+</script>
+
+{% endblock %}
+
+{% block body %}
+<div id="main" style="padding: 0% 2%;" >
+
+    {% for message in get_flashed_messages() %}
+        {% if message == 'SUCCESS: Entry submitted' %}
+        <div class="alert alert-info" style="position: fixed;top: 18%;font-weight: 700;width: 30%;left: 67%;text-align: center;">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% else %}
+        <div class="alert alert-danger" style="position: fixed;top: 18%;font-weight: 700;width: 30%;left: 67%;text-align: center;">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endif %}
+    {% endfor %}
+
+
+    <div class="row" style="padding-top: 5%;">
+
+        <div class="row" style="padding: 0 2%;font-size:medium;">
+            <div class="col-lg-6">
+                Client Name: {% for name in client_name %} {{name+" "}} {% endfor %}
+            </div>
+        </div>
+
+        <div class="row" style="text-align:center;font-size:x-large;margin-bottom:1%;">
+            CASH RECEIPT JOURNAL
+        </div>
+        <div class="row" style="text-align:right;margin: 0;">
+            <button class="btn btn-primary" style="width:25%;margin-bottom:5px;font-weight:bold; height:50px;" data-toggle="modal" data-target="#modal_acc">ADD ENTRY</button>
+        </div>
+
+        <div class="col-lg-12" style="font-size:11px; background-color:#ececec; width:100%; overflow:scroll;height:400px;border: 2px solid gray;border-radius:5px;padding:1%;" id="xiao">
+            <table class="table table-bordered table-hover" style="background-color:#f0fff0ba;" id="table-1">
+
+                <thead style="text-align:center;font-weight:bold;border: 1px solid green">
+                    <tr style="background-color:#76e676;" id="t_header">
+                        <td></td>
+                        <td></td>
+                        <td>Date</td>
+                        <td id="particulars">Particulars</td>
+                        <td>Schedule</td>
+                        <td>Doc#</td>
+                        <td>Cash</td>
+                        <td>A/P</td>
+                        <td>VAT Rev.</td>
+                        <td>Gross Rev.</td>
+                        <td>VAT Out</td>
+
+                    </tr>
+                    <tr id="entry_type">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>DR</td>
+                        <td colspan="4">CR</td>
+                    </tr>
+                </thead>
+                <tbody id="entry">
+                    {% for x in range(5) %}
+                    <tr id="1">
+                        <td>
+                            <button class="btn btn-warning">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </button>
+                        </td>
+                        <td>6-12-18</td>
+                        <td>Juan Dela Cruz</td>
+                        <td>item</td>
+                        <td>143</td>
+                        <td>1700</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+            <table class="table table-hover" id="header-fixed"></table>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:2%;">
+        <div class="panel panel-success" style="border:1px solid dimgrey;">
+            <div class="panel-heading" style="background-color:#868888;color:white;">
+                SUMMARY
+            </div>
+            <div class="panel-body">
+                ffff
+                <button class="btn btn-warning" id="exp1_button">insert</button>
+            </div>
+            <div class="panel-footer" id="insert_exp1">
+                zzz
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+  <!-- MODAL -->
+  <div class="modal fade" id="modal_acc" role="dialog">
+     <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header" style="padding-bottom:0px;">
+
+<!---->
+            <div class="row">
+                <div class="col-lg-2" style="text-align:center;">
+                    <h4 class="modal-title">Add Entry</h4>
+                </div>
+                <div class="col-lg-8" style="padding: unset;">
+                    <div class="form-group" style="text-align:center;">
+                        <select class="form-control" id="chart_of_accounts">
+                            {% for account in account_form %}
+                            <option value="{{ account.__repr__() }}">{{ account.__repr__().replace('_',' ').upper() }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-1" style="padding:0 5px;">
+                    <button class="btn btn-default" id="qq" style="width:65%;">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+            </div>
+        </div>
+        {% for account in account_form %}
+            {% include "acc_temps/"+account.__repr__()+".html" with context %}
+        {% endfor %}
+      </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

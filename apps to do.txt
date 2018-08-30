@@ -1,0 +1,6 @@
+What apps do I need in django framework?
+
+register
+books for - the journals
+client - contains search, delete, add (managing clients)
+	client profiles
