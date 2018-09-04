@@ -13,4 +13,11 @@ class UserDirectory(models.Model):
     contact_num = models.CharField(max_length=20)
 
 
+class Client(models.Model):
+    firstname = models.CharField(max_length=100)
+    middlename = models.CharField(max_length=50)
+    lastname = models.CharField(max_length=50)
+    contactNum = models.CharField(max_length=20)
+    address = models.CharField(max_length=200)
+    companyName = models.CharField(max_length=500)
 # class Client(models.Model):
