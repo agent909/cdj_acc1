@@ -1,0 +1,4 @@
+DATABASE STRUCTURE
+
+Entry belongs to a Client
+Every transaction belongs to a unique Entry
