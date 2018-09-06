@@ -1,4 +1,25 @@
 DATABASE STRUCTURE
 
-Entry belongs to a Client
+Every Entry belongs to a Client
 Every transaction belongs to a unique Entry
+
+(NOT SOLUTION) every Accounting table has a column for actions
+    >column actions is a SET of entry (DEBIT, CREDIT)
+
+every ACCOUNT is owned by a Client
+
+
+SCENARIOS
+    >if the cmpny has ACCOUNT RECEIVABLE then the clerk/accountant must be able to create account RECEIVABLE
+    >there are two actions for Account RECEIVABLE, one is RECEIVE PAYMENT, and RELEASE PRODUCT.
+    >for the data entry the clerk/accountant should be able to select which ACCOUNT RECEIVABLE of the Client 
+        should be paid by the customer.
+        The user is promted with the list of RECEIVABLE (date, sold to, amount, particulars)
+        The user may search by date, name, particulars
+    
+
+    >if an employee got CASH ADVANCE then the clerk/accountant should be able to issue CASH ADVANCE
+    >there are two actions for CASH ADVANCE, one is RETURN CASH, and RELEASE CASH.
+    >for the data entry the clerk/accountant should be able to select which cash ADVANCE should be cancled.
+
+
