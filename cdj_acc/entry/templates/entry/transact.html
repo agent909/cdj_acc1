@@ -22,7 +22,8 @@
 
         // alert(current_form);
         alert("lkjlkj");
-        $("#forms").load("test_file.html");
+        {% load static %}
+        $("#forms").load("{% static 'test_file.html' %}");
         alert("adsf");
       });
     });
