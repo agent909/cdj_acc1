@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Create User {% endblock %}
+{% block title %} Add Entry {% endblock %}
 
 {% block head %}
   
@@ -14,17 +14,30 @@
 
   <script>
     $("document").ready(function(){
-        var current_form = "test file"
-      $("#zzz").on('change', function(){
-      // $("[name='account_selector']").on(change, function(){
+
+      // $("#zzz").on('change', function(){
+      $("[name='account_selector']").on('change', function(){
+        var current_form = this.value.toLowerCase().split(" ");
+        var temp="";
+        // current_form = current_form;
+
+        for (var x=0; x<current_form.length; x++){
+    	    if(x==current_form.length-1){
+        	  temp += current_form[x]+".html";
+            break;
+          }
+    	    temp += current_form[x]+"_";
+        }
+
+        current_form = temp;
         
-        // current_form = current_form.toLowerCase();
+        alert(current_form);
 
         // alert(current_form);
-        alert("lkjlkj");
+        // alert("lkjlkj");
         {% load static %}
-        $("#forms").load("{% static 'test_file.html' %}");
-        alert("adsf");
+        $("#forms").load( "/static/"+current_form );
+        // alert("adsf");
       });
     });
   </script>
@@ -47,7 +60,7 @@
             <div class="col-lg-9">
               <select id="zzz" name="account_selector" class="form-control">
                 {% for account in accounts %}
-                <option val="{{account.name}}">{{account.name}}</option>
+                <option val={{account.name}}>{{account.name}}</option>
                 {% endfor %}
               </select>
             </div>
