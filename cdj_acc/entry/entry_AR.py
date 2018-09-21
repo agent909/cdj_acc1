@@ -9,7 +9,7 @@ from register.models import Client
 client = Client.objects.get(pk=1)
 
 # GET the name of the Account used
-account_name = Accounts.objects.get(pk=1)
+account_name = Accounts.objects.get(name=request.POST['account_selector'])
 
 # CREATE TRANSACTION
 transaction = Transactions(client=client, nameOfTransaction=account_name, date_entry=timezone.localtime(timezone.now()))
