@@ -24,14 +24,13 @@ class AccountReceivableForm(forms.Form):
         'id':'TESTid2', #TRACE THIS ONE and change the ID
         'placeholder':'Item',
     }))
-    quantity = forms.DecimalField(max_digits=10, decimal_places=2, default=0, widget=forms.NumberInput(attrs={
+    quantity = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
         'class':'form-control',
         'name':'quantity',
-        'palceholder':'Quanity'
+        'placeholder':'Quanity'
     }))
-    price = forms.DecimalField(max_digits=10, decimal_places=2, default=0, widget=forms.NumberInput(attrs={
+    price = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
         'class':'form-control',
         'name':'price',
         'palceholder':'Price',
     }))
-    
