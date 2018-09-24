@@ -1,27 +1,38 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from entry.models import *
 from register.models import Client
+
+from .forms import AccountReceivableForm
+
 # Create your views here.
 
 def transact(request):
     accounts = get_list_or_404(Accounts)
-    try:
-        printit=""
-        # myarray = request.POST['items']
-        # for x in myarray:
-        #     printit+=x 
-        context = {
-            'accounts':accounts, 'myarray':request.POST['items[0]'],
-        }
+    # try:
+    #     # printit=""
+    #     # myarray = request.POST['items']
+    #     # for x in myarray:
+    #     #     printit+=x 
+    #     context = {
+    #         'accounts':accounts, 'myarray':request.POST['item1'], 'chu':request.POST['item_name'],
+    #     }
 
-        print(request.POST['items'])
+    #     # print(request.POST['items'])
 
-        return render(request, 'entry/transact.html', context)
-    except:
-        pass
+    #     return render(request, 'entry/transact.html', context)
+    
+    # except(KeyError):
+    #     # pass
+    #     context = {
+    #     'accounts':accounts, 'myarray':'ERROR!', 'chu':'encountered error',
+    #     }
+
+    #     return render(request, 'entry/transact.html', context)
+
+    myform = AccountReceivableForm(auto_id=False)
 
     context = {
-        'accounts':accounts,
+        'accounts':accounts, 'myarray':'this is the problem', 'chu':'encountered error', 'form':myform,
     }
 
     return render(request, 'entry/transact.html', context)
