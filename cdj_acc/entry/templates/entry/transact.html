@@ -14,32 +14,29 @@
 
   <script>
     $("document").ready(function(){
-      // alert("{{myarray}}");
-      // alert("{{chu}}");
 
+      alert("{{ message }}");
 
-      $("#add_item").click(function(){
+      // FEATURE FOR INVENTORY
+      // $("#add_item").click(function(){
 
-        var item_name = $("[name='item_name']").val();
-        var quantity = $("[name='quantity']").val();
-        var price = $("[name='price']").val();
-        var amount = quantity*price;
+      //   var item_name = $("[name='item_name']").val();
+      //   var quantity = $("[name='quantity']").val();
+      //   var price = $("[name='price']").val();
+      //   var amount = quantity*price;
 
-        if(item_name!="" && quantity!="" && amount!=""){
-          $("#forms").append("<input type='text' style='display:none;' id='testID' name='item1' value='"+item_name+'^'+quantity+'^'+amount+"'>");
-          $("tbody").append("<tr><td>"+item_name+"</td><td>"+quantity+"</td><td>"+price+"</td><td>"+amount+"</td></tr>");
+      //   if(item_name!="" && quantity!="" && amount!=""){
+      //     $("#forms").append("<input type='text' style='display:none;' id='testID' name='item1' value='"+item_name+'^'+quantity+'^'+amount+"'>");
+      //     $("tbody").append("<tr><td>"+item_name+"</td><td>"+quantity+"</td><td>"+price+"</td><td>"+amount+"</td></tr>");
 
-          $("[name='item_name']").val("");
-          $("[name='quantity']").val("");
-          $("[name='price']").val("");
+      //     $("[name='item_name']").val("");
+      //     $("[name='quantity']").val("");
+      //     $("[name='price']").val("");
 
-        }else{
-          alert("Invalid Input: please complete the form to add item");
-        }
-
-
-
-      });
+      //   }else{
+      //     alert("Invalid Input: please complete the form to add item");
+      //   }
+      // });
 
       $("[name='account_selector']").on('change', function(){
         var current_form = this.value.toLowerCase();
@@ -108,24 +105,32 @@
               </div>
             </div>
 
-
             <div class="row">
+              <div class="col-lg-5">
+                {{form.amount}}
+              </div>
+            </div>
+
+            <!-- RESERVED FOR INVENTORY FEATURE -->
+
+            <!-- <div class="row">
               <div class="col-lg-6">
-                {{form.item}}
+                form for item here
               </div>
               <div class="col-lg-2">
-                {{form.quantity}}
+                form for quantity here
               </div>
               <div class="col-lg-2">
-                <input type="number" name="price" class="form-control" placeholder="Price">
+                form for price here
               </div>
               <div class="col-lg-2">
                 <button id="add_item" value="asdf" type="button" class="btn btn-success form-control">Add item</button>
               </div>
-            </div>
+            </div> -->
 
+            <!-- TABLE FOR LIST OF ITEMS SOLD, FOR INVENTORY -->
 
-            <div class="row" style="margin-top:25px;">
+            <!-- <div class="row" style="margin-top:25px;">
 
               <div class="col-lg-12">
                   <table name="mytable" class="table table-hover table-bordered" style="border:1px solid #ced4da;">
@@ -146,7 +151,7 @@
                           <td>C</td>
                           <td>D</td>
                         </tr>
-                        <!-- <tr>
+                        <tr>
                           <td></td>
                           <td></td>
                           <td></td>
@@ -155,22 +160,22 @@
                           <td></td>
                           <td></td>
                           <td></td>
-                        </tr> -->
+                        </tr>
                       </tbody>
 
                   </table>
               </div>          
-            </div>
+            </div> -->
 
 
             <div class="row">
-              <div class="col-lg-8">
+              <div class="col-lg-10">
               </div>
-              <div class="col-lg-2">
-                <button class="btn btn-default form-control">
+              <!-- <div class="col-lg-2">
+                <button type="button" id="clear_form" class="btn btn-default form-control">
                   cancel
                 </button>
-              </div>
+              </div> -->
               <div class="col-lg-2">
                   <button type="submit" class="btn btn-success form-control">
                     submit

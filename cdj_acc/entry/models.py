@@ -23,8 +23,8 @@ class Accounts(models.Model):
 
 
 class Transactions(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    nameOfTransaction = models.ForeignKey(Accounts, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.PROTECT)
+    nameOfTransaction = models.ForeignKey(Accounts, on_delete=models.PROTECT)
     date_entry = models.DateTimeField('Entry Date')
     # add user attribute for LOGS
 
@@ -33,27 +33,20 @@ class Transactions(models.Model):
 
 
 class AccountReceivable(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    date = models.DateTimeField('Document Date')
+    client = models.ForeignKey(Client, on_delete=models.PROTECT)
+    date = models.DateField('Document Date')
     documentNumber = models.PositiveIntegerField()
     buyer = models.CharField(max_length=180)
-    # account_receivable = models.ForeignKey(AccountReceivable, on_delete=models.CASCADE)
     cash = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    # credit = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE, default=-1)
-    # cash = models.DecimalField(max_digits=12, decimal_places=2)
-
-    # def __str__(self):
-    #     return self.particulars
 
 
 class Sales(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.PROTECT)
     date = models.DateTimeField('Document Date')
     documentNumber = models.PositiveIntegerField()
     buyer = models.CharField(max_length=180)
     cash = models.DecimalField(max_digits=15, decimal_places=2, default=0)
-    # debit = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     item = models.CharField(max_length=500)
     quantity = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     price = models.DecimalField(max_digits=15, decimal_places=2, default=0)

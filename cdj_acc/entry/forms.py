@@ -2,8 +2,7 @@ from django import forms
 
 
 class AccountReceivableForm(forms.Form):
-    # date CHANGE INTO DATEINPUT FIELD  / / don't forget to UPDATE DATABASE 'use Migration'
-    date = forms.DateTimeField(widget=forms.DateTimeInput(attrs={
+    date = forms.DateField(widget=forms.DateInput(attrs={
         'class':'form-control form-control-sm', 
         'name':'date',
         'type':'date',
@@ -18,19 +17,29 @@ class AccountReceivableForm(forms.Form):
         'placeholder':'Solt to',
         'name':'debtor',
     }))
-    item = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
+    amount = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
         'class':'form-control',
-        'name':'item_name',
-        'id':'TESTid2', #TRACE THIS ONE and change the ID
-        'placeholder':'Item',
+        'name':'amount',
+        'placeholder':'Amount',
     }))
-    quantity = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
-        'class':'form-control',
-        'name':'quantity',
-        'placeholder':'Quanity'
-    }))
-    price = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
-        'class':'form-control',
-        'name':'price',
-        'palceholder':'Price',
-    }))
+
+
+    # RESERVED FOR INVENTORY FEATURE
+    
+    # item = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
+    #     'class':'form-control',
+    #     'name':'item_name',
+    #     'id':'TESTid2', #TRACE THIS ONE and change the ID
+    #     'placeholder':'Item',
+    # }))
+    # quantity = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
+    #     'class':'form-control',
+    #     'name':'quantity',
+    #     'placeholder':'Quanity'
+    # }))
+    # price = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
+    #     'class':'form-control',
+    #     'name':'price',
+    #     'palceholder':'Price',
+    # }))
+
