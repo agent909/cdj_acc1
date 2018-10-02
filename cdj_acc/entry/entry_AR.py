@@ -29,5 +29,17 @@ AR = AccountReceivable(
     transaction_id=transaction.id,
 )
 
+# GET DETAILS ON THE TEMPLATE FORM then create SALES
+Sale = Sale(
+    client=client,
+    date=date,
+    documentNumber=documentNumber,
+    buyer=buyer,
+    amount=amount,
+    transaction_id=transaction.id
+)
+
+
+# FOR INVENTORY EXTENSION
 # GET ITEMS ON and Add it to Sales.
     # iterate through the list of items listed in the Table (provided by the user).

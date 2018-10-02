@@ -29,7 +29,7 @@ class Transactions(models.Model):
     # add user attribute for LOGS
 
     def __str__(self):
-        return self.nameOfTransaction.name
+        return str(self.id)+". "+self.nameOfTransaction.name
 
 
 class AccountReceivable(models.Model):
@@ -40,22 +40,24 @@ class AccountReceivable(models.Model):
     cash = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE, default=-1)
 
+    def __str__(self):
+        return str(self.transaction_id.id)+". "+self.buyer+" "+str(self.cash)
+
 
 class Sales(models.Model):
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     date = models.DateTimeField('Document Date')
     documentNumber = models.PositiveIntegerField()
     buyer = models.CharField(max_length=180)
-    cash = models.DecimalField(max_digits=15, decimal_places=2, default=0)
-    item = models.CharField(max_length=500)
-    quantity = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    price = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     amount = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE)
+    # cash = models.DecimalField(max_digits=15, decimal_places=2, default=0)
+    # item = models.CharField(max_length=500)
+    # quantity = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    # price = models.DecimalField(max_digits=15, decimal_places=2, default=0)
 
     def __str__(self):
-        return self.buyer+" "+str(self.cash)
-
+        return str(self.transaction_id)+". "+self.buyer+" "+str(self.amount)
 
 
 # class CashAdvance(models.Model):

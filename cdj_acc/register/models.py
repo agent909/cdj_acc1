@@ -5,7 +5,6 @@ class User(models.Model):
     name = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     position = models.CharField(max_length=200)
-    # password = 
 
 
 class UserDirectory(models.Model):
@@ -20,4 +19,6 @@ class Client(models.Model):
     contactNum = models.CharField(max_length=20)
     address = models.CharField(max_length=200)
     companyName = models.CharField(max_length=500)
-# class Client(models.Model):
+
+    def __str__(self):
+        return self.lastname+" "+self.firstname

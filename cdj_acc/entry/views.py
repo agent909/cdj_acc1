@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from entry.models import *
 from register.models import Client
-from django.utils import timezone
+from datetime import datetime
 
 from .forms import AccountReceivableForm
 
-# Create your views here.
 
 def transact(request):
     accounts = get_list_or_404(Accounts)
@@ -33,10 +32,15 @@ def transact(request):
             client = Client.objects.get(pk=1)
 
             # GET the name of the Account used
-            account_name = Accounts.objects.get(name=request.POST['account_selector']
+            account_name = Accounts.objects.get(name=request.POST['account_selector'])
 
             # CREATE TRANSACTION
-            transaction = Transactions(client=client, nameOfTransaction=account_name, date_entry=timezone.localtime(timezone.now()))
+            transaction = Transactions(
+                client=client, 
+                nameOfTransaction=account_name, 
+                date_entry=datetime.today()
+                )
+
             transaction.save()
             
             AR = AccountReceivable(
@@ -45,16 +49,27 @@ def transact(request):
                 documentNumber=documentNumber,
                 buyer=buyer,
                 cash=amount,
-                transaction_id=transaction.id,
+                transaction_id=transaction,
             )
 
             AR.save()
+
+            Sale = Sales(
+                client=client,
+                date=date,
+                documentNumber=documentNumber,
+                buyer=buyer,
+                amount=amount,
+                transaction_id=transaction
+            )
+
+            Sale.save()
 
             print("SUCCESSfully posted to database")
             message = "SUCCESSfully posted to database"
 
         else:
-            message = "INVALID"
+            message = "INVALID form"
 
     context = {
         'accounts':accounts, 'form':myform, 'message':message,
