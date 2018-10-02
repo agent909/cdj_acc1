@@ -2,14 +2,13 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from entry.models import *
 from register.models import Client
 from datetime import datetime
+from django.utils import timezone
 
 from .forms import AccountReceivableForm
 
 
 def transact(request):
     accounts = get_list_or_404(Accounts)
-    myform = AccountReceivableForm(auto_id=False)
-
     message = 'initial message'
 
     if request.method == 'POST':
@@ -18,8 +17,6 @@ def transact(request):
 
         if form.is_valid():
             print("FORM is VALIDATED")
-            message = "VALID"
-
             print(request.POST['account_selector'])
 
             A_receivable = form.cleaned_data
@@ -38,7 +35,7 @@ def transact(request):
             transaction = Transactions(
                 client=client, 
                 nameOfTransaction=account_name, 
-                date_entry=datetime.today()
+                date_entry=timezone.now()
                 )
 
             transaction.save()
@@ -72,36 +69,20 @@ def transact(request):
             message = "INVALID form"
 
     context = {
-        'accounts':accounts, 'form':myform, 'message':message,
+        'accounts':accounts,
+        'message':message,
     }
+        
+    context = append_forms_to_context(context)
 
     return render(request, 'entry/transact.html', context)
 
-        # # GET id of selected CLIENT
-        # client = Client.objects.get(pk=1)
 
-        # # GET the name of the Account used
-        # account_name = Accounts.objects.get(name=request.POST['account_selector'])
 
-        # # CREATE TRANSACTION
-        # transaction = Transactions(client=client, nameOfTransaction=account_name, date_entry=timezone.localtime(timezone.now()))
-        # transaction.save()
-
-        # #GET TRANSACTION ID 
-        # transaction_id = transaction.id
-
-        # # GET DETAILS ON THE TEMPLATE FORM then create A/R
-        # account_receivable_entry = AccountReceivable(
-        #     client=client, 
-        #     date=request.POST['date'], 
-        #     documentNumber=request.POST['document_number'], 
-        #     buyer=request.POST['debtor'],
-        #     # cash=
-        #     )
-
-        # context = {
-        #     'accounts':accounts,
-        #     'message':'Successfully added entry',
-        #   }
-        # #   DO!  TRIGGER function ON template side to prompt success or failure of transaction.
-        # return render(request, 'entry/transact.html', context)
+# ADD ALL THE DJANGO FORMS HERE
+def append_forms_to_context(context):
+    forms = {
+        'account_receivable': AccountReceivableForm(auto_id=False),
+        'sales': AccountReceivableForm(auto_id=False),
+    }
+    return {**context, **forms}

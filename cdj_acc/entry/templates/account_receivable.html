@@ -1,0 +1,45 @@
+<html>
+    <body>
+                
+                    <hr/>
+                    <!-- FORMS SECTION -->
+                    <div id="account_receivable_form" style="display:none;">
+                        
+                        <div class="row">
+                            <div class="col-lg-3">
+                                Date of transaction
+                                {{account_receivable.date}}
+                            </div>
+                            <div class="col-lg-2">
+                                Charge Invoice
+                                {{account_receivable.documentNumber}}
+                            </div>
+                        </div>
+            
+            
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {{account_receivable.buyer}}
+                            </div>
+                        </div>
+            
+                        <div class="row">
+                            <div class="col-lg-5">
+                                {{account_receivable.amount}}
+                            </div>
+                        </div>
+                     
+                        <div class="row">
+                            <div class="col-lg-10">
+                            </div>
+
+                            <div class="col-lg-2">
+                                <button type="submit" class="btn btn-success form-control">
+                                    submit
+                                </button>
+                            </div>
+                        </div>
+            
+                    </div>
+    </body>
+</html>

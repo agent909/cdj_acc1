@@ -46,7 +46,7 @@ class AccountReceivable(models.Model):
 
 class Sales(models.Model):
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
-    date = models.DateTimeField('Document Date')
+    date = models.DateField('Document Date')
     documentNumber = models.PositiveIntegerField()
     buyer = models.CharField(max_length=180)
     amount = models.DecimalField(max_digits=15, decimal_places=2, default=0)
