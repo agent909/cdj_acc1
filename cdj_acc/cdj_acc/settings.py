@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'entry.apps.EntryConfig',
     'register.apps.RegisterConfig',
     'book.apps.BookConfig',
+    'client.apps.ClientConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

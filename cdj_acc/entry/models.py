@@ -44,6 +44,15 @@ class AccountReceivable(models.Model):
         return str(self.transaction_id.id)+". "+self.buyer+" "+str(self.cash)
 
 
+class PaymentToAccountReceivable(models.Model):
+    receivable = models.ForeignKey(AccountReceivable, on_delete=models.PROTECT)
+    cash = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE, default=-1) 
+
+    def __str__(self):
+        return self.receivable.buyer+" cash: "+str(self.receivable.cash)
+
+
 class Sales(models.Model):
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     date = models.DateField('Document Date')

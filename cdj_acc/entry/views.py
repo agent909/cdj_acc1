@@ -29,10 +29,9 @@ def generate_filename(list_of_names):
 
 def transact(request):
     accounts = get_list_or_404(Accounts)
-    message = 'initial message'
+    message = ''
 
     if request.method == 'POST':
-        message = "POSTED REQUEST"
         form = AccountReceivableForm(request.POST)
 
         if form.is_valid():
@@ -81,9 +80,9 @@ def transact(request):
             )
             Sale.save()
             print("SUCCESSfully posted to database")
-            message = "SUCCESSfully posted to database"
+            message = "SUCCESSFULLY POSTED ENTRY"
         else:
-            message = "INVALID form"
+            message = "INVALID FORM"
 
     context = {
         'accounts':accounts,
@@ -98,7 +97,7 @@ def transact(request):
 
 def add_account_receivable(request):
     accounts = get_list_or_404(Accounts)
-    message = 'initial message'
+    message = ''
 
     if request.method == 'POST':
         form = AccountReceivableForm(request.POST)
@@ -149,9 +148,9 @@ def add_account_receivable(request):
             )
             Sale.save()
             print("SUCCESSfully posted to database")
-            message = "SUCCESSfully posted to database"
+            message = "SUCCESSFULLY POSTED ENTRY"
         else:
-            message = "INVALID form"
+            message = "INVALID FORM"
 
     context = {
         'accounts':accounts,
@@ -166,7 +165,7 @@ def add_account_receivable(request):
 
 def add_sales(request):
     accounts = get_list_or_404(Accounts)
-    message = 'initial message'
+    message = ''
 
     if request.method == 'POST':
         form = AccountReceivableForm(request.POST)
@@ -204,8 +203,11 @@ def add_sales(request):
                 amount=amount,
                 transaction_id=transaction
             )
+            Sale.save()
+            print("SUCCESSfully posted to database")
+            message = "SUCCESSFULLY POSTED ENTRY"
         else:
-            message = "INVALID form"
+            message = "INVALID FORM"
 
     context = {
         'accounts':accounts,

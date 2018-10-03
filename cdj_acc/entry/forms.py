@@ -24,6 +24,16 @@ class AccountReceivableForm(forms.Form):
     }))
 
 
+class PaymentToAccountReceivableForm(forms.Form):
+    debtor = forms.CharField(required=False, max_length=180, widget=forms.TextInput(attrs={
+        'class':'form-control',
+        'placeholder':'Debtor',
+    }))
+    cash = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
+        'class':'form-control',
+        'placeholder':'Cash',
+    }))
+
     # RESERVED FOR INVENTORY FEATURE
     
     # item = forms.CharField(max_length=100, widget=forms.TextInput(attrs={

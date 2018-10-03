@@ -42,21 +42,27 @@
     <body>
         <!-- Division for NOTIFICATIONS and ALERTS -->
         <div id="notification" style="
-            background-color:black;
-            width:24%;
-            left:75%;
-            top:1%;
+            width:30%;
+            left:67%;
+            top:80%;
             position:absolute;
-            height:100%;
+            height:15%;
             z-index:1;
             ">
+            {% if message %}
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+            </div>
+            {% endif %}
         </div>
 
         <div class="wrapper">
             <!-- Sidebar  -->
             <nav id="sidebar">
                 <div class="sidebar-header">
-                    <h3></h3>
+                    <!-- Client/Company name here -->
+                    <h3>Juan Dela Cruz Maria Ernesto</h3>
                     <strong>CDJ</strong>
                 </div>
     
@@ -83,6 +89,7 @@
                             <i class="fas fa-plus-square"></i>
                             Entry
                         </a>
+
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                             <i class="fas fa-copy"></i>
                             Journals
@@ -98,6 +105,20 @@
                                 <a href="#">Sales</a>
                             </li>
                         </ul>
+
+                        <a href="#client" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="fas fa-user-circle"></i>
+                            Client
+                        </a>
+                        <ul class="collapse list-unstyled" id="client">
+                            <li>
+                                <a href="#">Client Profile</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'client:select_client' %}">Select Client</a>
+                            </li>
+                        </ul>
+    
                         <a href="#">
                             <i class="fas fa-briefcase"></i>
                             About
