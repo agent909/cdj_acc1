@@ -38,7 +38,7 @@
       //   }
       // });
 
-      var previous_form = "initial_form";
+      var previous_form = "initial";
 
       $("[name='account_selector']").on('change', function(){
         var current_form = this.value.toLowerCase();
@@ -54,12 +54,11 @@
         }
 
         current_form = temp;
-        $("#"+previous_form).css("display","none");
-        $("#main_form").attr("action", "{% 'entry:"+current_form+"' %}");
-        $("#"+current_form).css("display","unset");
+        $("#"+previous_form+"_form").css("display","none");
+        $("#main_form").attr("action","/entry/"+current_form+"/");
+        $("#"+current_form+"_form").css("display","unset");
+        previous_form = current_form;
 
-        // alert(current_form);
-        // $("#forms").load( "/static/"+current_form );
       });
     });
   </script>
@@ -86,9 +85,11 @@
                 </div>
               </div>
 
+              <hr/>
+
                     <!-- FORMS INSERTED HERE -->
-              {% for account in accounts %}
-                {% include account.name.lower().replace(" ","_")+".html" %}
+              {% for filename in template_filenames %}
+                {% include filename %}
               {% endfor %}
 
               <div id="initial_form" style="display:unset;">
@@ -188,14 +189,6 @@
                       </button>
                   </div>
                   </div>
-
-                  <!-- TESTING ZONE hahaha -->
-
-                  <!-- <div class="row">
-                  <div class="col-lg-12">
-                      {{form.documentNumber}}
-                  </div>
-                  </div> -->
 
               </div>
             </div>
