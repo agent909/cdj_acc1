@@ -1,0 +1,9 @@
+1. Get all receivables from current client, using client id
+
+    AccountReceivables.Objects.filter(client_id=CURRENT_CLIENT_ID)
+
+    //Use this on dataTables
+
+2. Get all payment to certain receivable
+
+    PaymentToAccountReceivable.objects.filter(receivable_id=ARobject.id)

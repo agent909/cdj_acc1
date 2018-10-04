@@ -15,6 +15,8 @@
   <script>
     $("document").ready(function(){
 
+        // $("#debtors_table").DataTable();
+
       // FEATURE FOR INVENTORY
       // $("#add_item").click(function(){
 
@@ -53,7 +55,7 @@
 
         current_form = temp;
         $("#"+previous_form+"_form").css("display","none");
-        $("#main_form").attr("action","/entry/"+current_form+"/");
+        // $("#main_form").attr("action","/entry/"+current_form+"/");
         $("#"+current_form+"_form").css("display","unset");
         previous_form = current_form;
 
@@ -66,31 +68,29 @@
 {% block body %}
 
 <div class="container-fluid">
-    <form id="main_form" action="{% url 'entry:transaction' %}" method="post">
+    <div class="form-group">
+        
+        <div class="row">
+            <div class="col-lg-3">
+                <h2>Add Entry</h2>
+            </div>
+            <div class="col-lg-9">
+                <select name="account_selector" class="form-control">
+                {% for account in accounts %}
+                <option val={{account.name}}>{{account.name}}</option>
+                {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <hr/>
+    </div>
+
+    <form id="initial_form" action="{% url 'entry:add_account_receivable' %}" method="post">
         {% csrf_token %}
             <div class="form-group">
 
-              <div class="row">
-                <div class="col-lg-3">
-                  <h2>Add Entry</h2>
-                </div>
-                <div class="col-lg-9">
-                  <select name="account_selector" class="form-control">
-                    {% for account in accounts %}
-                    <option val={{account.name}}>{{account.name}}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-
-              <hr/>
-
                     <!-- FORMS INSERTED HERE -->
-              {% for filename in template_filenames %}
-                {% include filename %}
-              {% endfor %}
-
-              <div id="initial_form" style="display:unset;">
                                     
                   <div class="row">
                   <div class="col-lg-3">
@@ -188,11 +188,16 @@
                   </div>
                   </div>
 
-              </div>
+
             </div>
 
     </form>
 
+    {% for filename in template_filenames %}
+        {% include filename %}
+    {% endfor %}
+
+    
 </div>
 
 

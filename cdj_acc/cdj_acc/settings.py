@@ -115,9 +115,10 @@ STATICFILES_FINDERS = [
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = BASE_DIR
+
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    # BASE_DIR,
+    os.path.join(BASE_DIR, "cdj_acc\static").replace("\\","/"),
 ]
 
 LOGIN_REDIRECT_URL = '/'

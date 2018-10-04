@@ -46,6 +46,7 @@ class AccountReceivable(models.Model):
 
 class PaymentToAccountReceivable(models.Model):
     receivable = models.ForeignKey(AccountReceivable, on_delete=models.PROTECT)
+    date = models.DateField('Document Date')
     cash = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE, default=-1) 
 
@@ -58,7 +59,7 @@ class Sales(models.Model):
     date = models.DateField('Document Date')
     documentNumber = models.PositiveIntegerField()
     buyer = models.CharField(max_length=180)
-    amount = models.DecimalField(max_digits=15, decimal_places=2, default=0)
+    amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE)
     # cash = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     # item = models.CharField(max_length=500)
@@ -66,7 +67,7 @@ class Sales(models.Model):
     # price = models.DecimalField(max_digits=15, decimal_places=2, default=0)
 
     def __str__(self):
-        return str(self.transaction_id)+". "+self.buyer+" "+str(self.amount)
+        return str(self.transaction_id.id)+". "+self.buyer+" "+str(self.amount)
 
 
 # class CashAdvance(models.Model):
