@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
+from django.contrib import messages
 from entry.models import *
 from register.models import Client
 from datetime import datetime
@@ -29,12 +30,10 @@ def generate_filename(list_of_names):
 
 def transact(request):
     accounts = get_list_or_404(Accounts)
-    message = ''
     receivables = AccountReceivable.objects.all()
 
     context = {
         'accounts':accounts,
-        'message':message,
         'template_filenames':generate_filename(accounts),
         'receivables':receivables,
     }
@@ -43,10 +42,8 @@ def transact(request):
     return render(request, 'entry/transact.html', context)
 
 
-
 def add_account_receivable(request):
     accounts = get_list_or_404(Accounts)
-    message = ''
 
     if request.method == 'POST':
         form = AccountReceivableForm(request.POST)
@@ -97,24 +94,16 @@ def add_account_receivable(request):
             )
             Sale.save()
             print("SUCCESSfully posted to database")
-            message = "SUCCESSFULLY POSTED ENTRY"
+            messages.success(request, "SUCCESSFULLY POSTED ENTRY")
         else:
-            message = "INVALID FORM"
+            messages.warning(request, "INVALID FORM")
 
-    context = {
-        'accounts':accounts,
-        'message':message,
-        'template_filenames':generate_filename(accounts),
-    }
-        
-    context = append_forms_to_context(context)
-    return render(request, 'entry/transact.html', context)
-
+    # return render(request, 'entry/transact.html', context)
+    return redirect('/entry/')
 
 
 def add_sales(request):
     accounts = get_list_or_404(Accounts)
-    message = ''
 
     if request.method == 'POST':
         form = AccountReceivableForm(request.POST)
@@ -154,15 +143,10 @@ def add_sales(request):
             )
             Sale.save()
             print("SUCCESSfully posted to database")
-            message = "SUCCESSFULLY POSTED ENTRY"
+            messages.success(request, "SUCCESSFULLY POSTED ENTRY")
         else:
-            message = "INVALID FORM"
+            messages.warning(request, "INVALID FORM")
 
-    context = {
-        'accounts':accounts,
-        'message':message,
-        'template_filenames':generate_filename(accounts),
-    }
-        
+
     context = append_forms_to_context(context)
-    return render(request, 'entry/transact.html', context)
+    return redirect('/entry/')
