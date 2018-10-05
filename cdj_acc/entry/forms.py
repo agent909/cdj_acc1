@@ -47,9 +47,9 @@ class SalesForm(forms.Form):
 
 
 class PaymentToAccountReceivableForm(forms.Form):
-    debtor = forms.CharField(required=False, max_length=180, widget=forms.TextInput(attrs={
-        'class':'form-control',
-        'placeholder':'Debtor',
+    date = forms.DateField(widget=forms.DateInput(attrs={
+        'class':'form-control form-control-sm', 
+        'type':'date',
     }))
     cash = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
         'class':'form-control',

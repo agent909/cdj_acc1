@@ -1,6 +1,6 @@
 1. Get all receivables from current client, using client id
 
-    AccountReceivables.Objects.filter(client_id=CURRENT_CLIENT_ID)
+    AccountReceivable.objects.filter(client_id=CURRENT_CLIENT_ID)
 
     //Use this on dataTables
 

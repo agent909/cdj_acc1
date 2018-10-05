@@ -3,7 +3,7 @@
 <body>
 
                 <!-- FORMS SECTION -->
-                <div id="payment_to_account_receivable_form" style="display:none;">
+                <form id="payment_to_account_receivable_form" action="{% url 'entry:add_payment_to_account_receivable' %}" method="post" style="display:none;">
                     
                         <table id="debtors_table" class="table table-striped table-bordered" style="width:100%;">
                         
@@ -15,10 +15,10 @@
                             </thead>
 
                             <tbody>
-                                {% for name in receivables %}
+                                {% for AReceivable in receivables %}
                                 <tr>
-                                    <td>{{ name.buyer }}</td>
-                                    <td>P143.00</td>
+                                    <td>{{ AReceivable.buyer }}</td>
+                                    <td>&#8369;&nbsp;{{ AReceivable.cash }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -37,7 +37,7 @@
                             </button>
                         </div> -->
             
-                </div>
+                </form>
 </body>
 
 </html>

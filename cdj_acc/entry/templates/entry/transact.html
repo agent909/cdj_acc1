@@ -14,8 +14,7 @@
 
   <script>
     $("document").ready(function(){
-
-        // $("#debtors_table").DataTable();
+        $("#debtors_table").DataTable();
 
       // FEATURE FOR INVENTORY
       // $("#add_item").click(function(){
@@ -38,19 +37,19 @@
       //   }
       // });
 
-      var previous_form = "initial";
+        var previous_form = "initial";
 
-      $("[name='account_selector']").on('change', function(){
+        $("[name='account_selector']").on('change', function(){
         var current_form = this.value.toLowerCase();
         current_form = current_form.split(" ");
         var temp="";
 
         for (var x=0; x<current_form.length; x++){
-    	    if(x==current_form.length-1){
-        	  temp += current_form[x];
+            if(x==current_form.length-1){
+                temp += current_form[x];
             break;
-          }
-    	    temp += current_form[x]+"_";
+            }
+            temp += current_form[x]+"_";
         }
 
         current_form = temp;
@@ -58,8 +57,7 @@
         // $("#main_form").attr("action","/entry/"+current_form+"/");
         $("#"+current_form+"_form").css("display","unset");
         previous_form = current_form;
-
-      });
+       });
     });
   </script>
 

@@ -43,7 +43,6 @@ def transact(request):
 
 
 def add_account_receivable(request):
-    accounts = get_list_or_404(Accounts)
 
     if request.method == 'POST':
         form = AccountReceivableForm(request.POST)
@@ -103,7 +102,6 @@ def add_account_receivable(request):
 
 
 def add_sales(request):
-    accounts = get_list_or_404(Accounts)
 
     if request.method == 'POST':
         form = AccountReceivableForm(request.POST)
@@ -147,6 +145,8 @@ def add_sales(request):
         else:
             messages.warning(request, "INVALID FORM")
 
+    return redirect('/entry/')
 
-    context = append_forms_to_context(context)
+
+def add_payment_to_account_receivable(request):
     return redirect('/entry/')
