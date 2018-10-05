@@ -13,6 +13,9 @@ class AccountReceivableForm(forms.Form):
     buyer = forms.CharField(max_length=180, widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'Solt to',
+        'data-target':'#AReceivable_buyer_names_modal',
+        'data-toggle':'modal',
+
     }))
     amount = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
         'class':'form-control',
