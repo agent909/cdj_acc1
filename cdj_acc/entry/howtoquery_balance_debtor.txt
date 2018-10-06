@@ -7,3 +7,8 @@
 2. Get all payment to certain receivable
 
     PaymentToAccountReceivable.objects.filter(receivable_id=ARobject.id)
+
+
+    USE THIS TO MERGE QUERY SETS
+        new_list = sorted(chain(list1, list2), key=lambda instance: instance.date)
+        
