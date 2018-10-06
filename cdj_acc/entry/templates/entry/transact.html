@@ -73,7 +73,7 @@
         {% csrf_token %}
             <div class="form-group">
 
-                    <!-- FORMS INSERTED HERE -->
+                    <!-- FORMS SELECTOR -->
                                     
                   <div class="row">
                   <div class="col-lg-3">
@@ -115,11 +115,13 @@
 
     </form>
 
+    <!-- FORMS INSERTED HERE DURING PAGELOAD -->
+
     {% for filename in template_filenames %}
         {% include filename %}
     {% endfor %}
 
-    
+
 </div>
 
 

@@ -54,6 +54,13 @@ class PaymentToAccountReceivableForm(forms.Form):
         'class':'form-control form-control-sm', 
         'type':'date',
     }))
+    debtor = forms.CharField(max_length=180, widget=forms.TextInput(attrs={
+        'class':'form-control',
+        'placeholder':'Debtor',
+        'data-target':'#AReceivable_debtor_names_modal',
+        'data-toggle':'modal',
+        'id':'ar_debtor_name',
+    }))
     cash = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
         'class':'form-control',
         'placeholder':'Cash',

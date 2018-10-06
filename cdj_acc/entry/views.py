@@ -5,7 +5,7 @@ from register.models import Client
 from datetime import datetime
 from django.utils import timezone
 
-from .forms import AccountReceivableForm
+from .forms import AccountReceivableForm, PaymentToAccountReceivableForm
 
 #--------------------------------------------------------------------------------------
 # HELPER FUNCTIONS
@@ -15,6 +15,7 @@ def append_forms_to_context(context):
     forms = {
         'account_receivable': AccountReceivableForm(auto_id=False),
         'sales': AccountReceivableForm(auto_id=False),
+        'add_payment_to_account_receivable': PaymentToAccountReceivableForm(auto_id=False),
     }
     return {**context, **forms}
 
@@ -149,4 +150,62 @@ def add_sales(request):
 
 
 def add_payment_to_account_receivable(request):
+
+    if request.method == 'POST':
+        form = PaymentToAccountReceivableForm(request.POST)
+
+        if form.is_valid():
+            print("FORM IS VALIDATED")
+
+            payment_A_receivable = form.cleaned_data
+            date = payment_A_receivable.get("date")
+            debtor = payment_A_receivable.get("debtor")
+            cash = payment_A_receivable.get("cash")
+
+            try:
+                receivable = AccountReceivable.objects.get(buyer=debtor)
+            except AccountReceivable.DoesNotExist:
+                messages.warning(request, "DEBTOR "+debtor+" DOES NOT EXIST")
+                return redirect('/entry/')
+
+            # GET id of selected CLIENT
+            client = Client.objects.get(pk=1)
+
+            # GET the name of the Account used
+            account_name = Accounts.objects.get(name=form.__str__())
+
+            # CREATE TRANSACTION
+            transaction = Transactions(
+                client=client, 
+                nameOfTransaction=account_name, 
+                date_entry=timezone.now()
+                )
+
+            transaction.save()
+
+            cash_entry = CashOnHand(
+                client=client,
+                date=date,
+                amount=cash,
+                transaction_id=transaction
+            )
+
+            cash_entry.save()
+
+            payment_to_AR = PaymentToAccountReceivable(
+                client=client,
+                receivable=receivable,
+                date=date,
+                debtor=debtor,
+                cash=cash_entry,
+                transaction_id=transaction,
+            )
+
+            payment_to_AR.save()
+
+            print("SUCCESSfully posted to database")
+            messages.success(request, "SUCCESSFULLY POSTED ENTRY")
+        else:
+            messages.warning(request, "INVALID FORM")
+
     return redirect('/entry/')
