@@ -1,14 +1,13 @@
 1. Get all receivables from current client, using client id
 
-    AccountReceivable.objects.filter(client_id=CURRENT_CLIENT_ID)
+    AccountReceivable.objects.filter(client_id=CURRENT_CLIENT_ID, buyer=BUYER_NAME)
 
     //Use this on dataTables
 
 2. Get all payment to certain receivable
 
-    PaymentToAccountReceivable.objects.filter(receivable_id=ARobject.id)
+    PaymentToAccountReceivable.objects.filter(cliend_id=CURRENT_CLIENT_ID, receivable_id=ARobject.id)
 
 
     USE THIS TO MERGE QUERY SETS
         new_list = sorted(chain(list1, list2), key=lambda instance: instance.date)
-        

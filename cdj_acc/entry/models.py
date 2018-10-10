@@ -1,7 +1,6 @@
 from django.db import models
 from register.models import Client
 
-
 # class Cash(models.Model):
 #     client = models.ForeignKey(Client, on_delete=models.CASCADE)
 #     debit = models.DecimalField(max_digits=12, decimal_places=2, default=0)
@@ -38,20 +37,20 @@ class AccountReceivable(models.Model):
     documentNumber = models.PositiveIntegerField()
     buyer = models.CharField(max_length=180)
     cash = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE, default=-1)
+    transaction = models.ForeignKey(Transactions, on_delete=models.CASCADE, default=-1)
 
     def __str__(self):
-        return str(self.transaction_id.id)+". "+self.buyer+" "+str(self.cash)
+        return str(self.transaction.id)+". "+self.buyer+" "+str(self.cash)
 
 
 class PaymentToAccountReceivable(models.Model):
     receivable = models.ForeignKey(AccountReceivable, on_delete=models.PROTECT)
     date = models.DateField('Document Date')
     cash = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE, default=-1) 
+    transaction = models.ForeignKey(Transactions, on_delete=models.CASCADE, default=-1) 
 
     def __str__(self):
-        return self.receivable.buyer+" cash: "+str(self.receivable.cash)
+        return self.receivable.buyer+" cash: "+str(self.cash)
 
 
 class Sales(models.Model):
@@ -60,17 +59,17 @@ class Sales(models.Model):
     documentNumber = models.PositiveIntegerField()
     buyer = models.CharField(max_length=180)
     amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE)
+    transaction = models.ForeignKey(Transactions, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.transaction_id.id)+". "+self.buyer+" "+str(self.amount)
+        return str(self.transaction.id)+". "+self.buyer+" "+str(self.amount)
 
 
 class CashOnHand(models.Model):
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     date = models.DateField('Document Date')
     amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE)
+    transaction = models.ForeignKey(Transactions, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.amount)
@@ -80,7 +79,7 @@ class CashInBank(models.Model):
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     date = models.DateField("Document Date")
     amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    transaction_id = models.ForeignKey(Transactions, on_delete=models.CASCADE)
+    transaction = models.ForeignKey(Transactions, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.amount)

@@ -16,32 +16,37 @@
     $("document").ready(function(){
         $("#debtors_table").DataTable();
         $("#debtors_table2").DataTable();
+        {% load entry_filters %}
 
         $(".select_debtor").click(function(){
             var name=$(this).text();
             $("#ar_buyer_name").val(name);
+            $("#ar_debtor_name").val(name);
         });
 
-        var previous_form = "initial";
+        var previous_form = "";
+        $("[name='account_selector']").val('{{ accounts|get_account:accountId }}');
+        previous_form = "{{accounts|get_form:accountId }}"
+        $("#"+"{{ accounts|get_form:accountId }}"+"_form").css("display","unset");
 
         $("[name='account_selector']").on('change', function(){
-        var current_form = this.value.toLowerCase();
-        current_form = current_form.split(" ");
-        var temp="";
+            var current_form = this.value.toLowerCase();
+            current_form = current_form.split(" ");
+            var temp="";
 
-        for (var x=0; x<current_form.length; x++){
-            if(x==current_form.length-1){
-                temp += current_form[x];
-            break;
+            for (var x=0; x<current_form.length; x++){
+                if(x==current_form.length-1){
+                    temp += current_form[x];
+                break;
+                }
+                temp += current_form[x]+"_";
             }
-            temp += current_form[x]+"_";
-        }
 
-        current_form = temp;
-        $("#"+previous_form+"_form").css("display","none");
-        // $("#main_form").attr("action","/entry/"+current_form+"/");
-        $("#"+current_form+"_form").css("display","unset");
-        previous_form = current_form;
+            current_form = temp;
+            $("#"+previous_form+"_form").css("display","none");
+            // $("#main_form").attr("action","/entry/"+current_form+"/");
+            $("#"+current_form+"_form").css("display","unset");
+            previous_form = current_form;
        });
     });
   </script>
@@ -60,7 +65,7 @@
             <div class="col-lg-9">
                 <select name="account_selector" class="form-control">
                 {% for account in accounts %}
-                <option val={{account.name}}>{{account.name}}</option>
+                <option val="{{account.name}}">{{ account.name }}</option>
                 {% endfor %}
                 </select>
             </div>
@@ -69,13 +74,13 @@
         <hr/>
     </div>
 
-    <form id="initial_form" action="{% url 'entry:add_account_receivable' %}" method="post">
+    <!-- <form id="initial_form" action="{% url 'entry:add_account_receivable' %}" method="post">
         {% csrf_token %}
-            <div class="form-group">
+            <div class="form-group"> -->
 
                     <!-- FORMS SELECTOR -->
                                     
-                  <div class="row">
+                  <!-- <div class="row">
                   <div class="col-lg-3">
                       Date of transaction
                       {{account_receivable.date}}
@@ -113,7 +118,7 @@
 
             </div>
 
-    </form>
+    </form> -->
 
     <!-- FORMS INSERTED HERE DURING PAGELOAD -->
 
