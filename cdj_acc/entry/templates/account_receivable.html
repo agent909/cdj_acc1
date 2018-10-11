@@ -71,10 +71,10 @@
                                     </thead>
         
                                     <tbody>
-                                        {% for AReceivable in receivables %}
+                                        {% for d_balance in debtor_balances %}
                                         <tr>
-                                            <td class="select_debtor" data-dismiss="modal">{{ AReceivable.buyer }}</td>
-                                            <td>&#8369;&nbsp;{{ AReceivable.cash }}</td>
+                                            <td class="select_debtor" data-dismiss="modal">{{ d_balance.0 }}</td>
+                                            <td>&#8369;&nbsp;{{ d_balance.1 }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

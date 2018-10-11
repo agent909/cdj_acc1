@@ -59,15 +59,13 @@
                                         <td></td>
                                         <td></td>
                                     </tr> -->
-                                    {% for buyer_transaction in buyer_transactions %}
-                                        {% for bt_entry in buyer_transaction %}
-                                            <tr>
-                                                <td>{{bt_entry.0}}</td>
-                                                <td>{{bt_entry.1}}</td>
-                                                <td>{{bt_entry.2}}</td>
-                                                <td>{{bt_entry.3}}</td>
-                                            </tr>
-                                        {% endfor %}
+                                    {% for bt_entry in buyer_transactions %}
+                                        <tr>
+                                            <td>{{bt_entry.0}}</td>
+                                            <td>{{bt_entry.1}}</td>
+                                            <td>{{bt_entry.2}}</td>
+                                            <td>{{bt_entry.3}}</td>
+                                        </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -103,10 +101,12 @@
                                     </thead>
 
                                     <tbody>
-                                        {% for AReceivable in receivables %}
+                                        {% for d_balance in debtor_balances %}
                                         <tr>
-                                            <td class="select_debtor" data-dismiss="modal">{{ AReceivable.buyer }}</td>
-                                            <td>&#8369;&nbsp;{{ AReceivable.cash }}</td>
+                                            <td id="buyer_5" href="/entry/payment_to_account_receivable/debtor={{d_balance.0|replace_x_with:' ,_'}}" class="select_debtor" data-dismiss="modal">{{ d_balance.0 }}</td>
+                                            <td>
+                                                &#8369;&nbsp;{{ d_balance.1 }}
+                                            </td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
