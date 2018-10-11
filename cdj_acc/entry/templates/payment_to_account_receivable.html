@@ -103,7 +103,11 @@
                                     <tbody>
                                         {% for d_balance in debtor_balances %}
                                         <tr>
-                                            <td id="buyer_5" href="/entry/payment_to_account_receivable/debtor={{d_balance.0|replace_x_with:' ,_'}}" class="select_debtor" data-dismiss="modal">{{ d_balance.0 }}</td>
+                                            <td>
+                                                <a href="/entry/payment_to_account_receivable/debtor={{d_balance.0|replace_x_with:' ,_'}}" class="open_debts" data-dismiss="modal">
+                                                    {{ d_balance.0 }}
+                                                </a>
+                                            </td>
                                             <td>
                                                 &#8369;&nbsp;{{ d_balance.1 }}
                                             </td>

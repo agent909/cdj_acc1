@@ -127,6 +127,7 @@ def get_debtors(request, acc_name, debtor_name):
     receivables = AccountReceivable.objects.filter(client_id=my_client.id)
 
     context={
+        'debtor_name':debtor_name,
         'acc_name':acc_name,
         'accounts':accounts,
         'template_filenames':generate_filename(accounts),

@@ -18,12 +18,17 @@
         $("#debtors_table2").DataTable();
         {% load entry_filters %}
 
+        $("#ar_debtor_name").val("{{debtor_name}}");
+
+        $(".open_debts").click(function(){
+            // $("#ar_debtor_name").val($(this));
+            window.location.href = $(this).attr("href");
+        });
+
         $(".select_debtor").click(function(){
             var name=$(this).text();
             $("#ar_buyer_name").val(name);
-            $("#ar_debtor_name").val(name);
-
-            window.location.href = $("#buyer_5").attr("href");
+            // window.location.href = $("#buyer_5").attr("href");
         });
 
         var previous_form = "";
