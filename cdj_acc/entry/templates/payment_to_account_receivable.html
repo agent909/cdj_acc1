@@ -10,6 +10,10 @@
                             Date of transaction
                             {{add_payment_to_account_receivable.date}}
                         </div>
+                        <div class="col-lg-3">
+                            Official Receipt
+                            {{add_payment_to_account_receivable.documentNumber}}
+                        </div>
                     </div>
 
                     <div class="row">
@@ -37,34 +41,36 @@
                     <!-- ACCOUNT RECEIVABLE LEDGER -->
                     <div class="row">
                         <div class="col-lg-12">
-                            ACCOUNT RECEIVABLE LEDGER
+
                             {% load entry_filters %}
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th colspan="5" style="text-align: center;">ACCOUNT RECEIVABLE</th>
                                     </tr>
+                                    <tr>
+                                        <th colspan="5">
+                                            Debtor: &nbsp;{{debtor_name|replace_x_with:'_, '}}
+                                        </th>
+                                    </tr>
                                 </thead>
 
                                 <tbody>
                                     <tr>
-                                        <td>DATE OF PAYMENT</td>
+                                        <td>DATE OF TRANSACTION</td>
+                                        <td>Doc#</td>
                                         <td>DR</td>
                                         <td>CR</td>
                                         <td>BALANCE</td>
                                     </tr>
-                                    <!-- <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr> -->
+
                                     {% for bt_entry in buyer_transactions %}
                                         <tr>
                                             <td>{{bt_entry.0}}</td>
                                             <td>{{bt_entry.1}}</td>
                                             <td>{{bt_entry.2}}</td>
                                             <td>{{bt_entry.3}}</td>
+                                            <td>{{bt_entry.4}}</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>

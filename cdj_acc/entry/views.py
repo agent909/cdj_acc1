@@ -43,10 +43,10 @@ def generate_Btransaction(receivables, buyer_name):
         temp=[]
         if(item.__class__.__name__=='AccountReceivable'):
             balance+=item.cash
-            temp+=[item.date, item.cash,'', balance]
+            temp+=[item.date, item.documentNumber, item.cash,'', balance]
         else:
             balance-=item.cash
-            temp+=[item.date,'', item.cash, balance]
+            temp+=[item.date, item.documentNumber,'', item.cash, balance]
         transactions2+=[temp]
     return transactions2
 
@@ -125,6 +125,11 @@ def get_debtors(request, acc_name, debtor_name):
     accounts = get_list_or_404(Accounts)
     my_client = Client.objects.get(pk=1)
     receivables = AccountReceivable.objects.filter(client_id=my_client.id)
+    try:
+        receivable = AccountReceivable.objects.filter(buyer=debtor_name.replace('_',' '))[0]
+    except(AccountReceivable.DoesNotExist, IndexError) as error:
+        messages.warning(request, "DEBTOR "+debtor+" DOES NOT EXIST")
+        return redirect('/entry/payment_to_account_receivable/')
 
     context={
         'debtor_name':debtor_name,
@@ -281,6 +286,7 @@ def add_payment_to_account_receivable(request):
 
             payment_A_receivable = form.cleaned_data
             date = payment_A_receivable.get("date")
+            documentNumber = payment_A_receivable.get("documentNumber")
             debtor = payment_A_receivable.get("debtor")
             cash = payment_A_receivable.get("cash")
 
@@ -317,6 +323,7 @@ def add_payment_to_account_receivable(request):
 
             payment_to_AR = PaymentToAccountReceivable(
                 receivable=receivable,
+                documentNumber=documentNumber,
                 date=date,
                 cash=cash_entry.amount,
                 transaction=transaction,

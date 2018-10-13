@@ -54,6 +54,10 @@ class PaymentToAccountReceivableForm(forms.Form):
         'class':'form-control form-control-sm', 
         'type':'date',
     }))
+    documentNumber = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={
+        'class':'form-control form-control-sm',
+        'placeholder':'Doc No.'
+    }))
     debtor = forms.CharField(max_length=180, widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'Debtor',

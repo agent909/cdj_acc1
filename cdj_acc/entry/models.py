@@ -45,6 +45,7 @@ class AccountReceivable(models.Model):
 
 class PaymentToAccountReceivable(models.Model):
     receivable = models.ForeignKey(AccountReceivable, on_delete=models.PROTECT)
+    documentNumber = models.PositiveIntegerField()
     date = models.DateField('Document Date')
     cash = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     transaction = models.ForeignKey(Transactions, on_delete=models.CASCADE, default=-1) 

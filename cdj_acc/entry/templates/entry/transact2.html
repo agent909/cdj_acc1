@@ -18,7 +18,7 @@
         $("#debtors_table2").DataTable();
         {% load entry_filters %}
 
-        $("#ar_debtor_name").val("{{debtor_name}}");
+        $("#ar_debtor_name").val("{{debtor_name|replace_x_with:'_, '}}");
 
         $(".open_debts").click(function(){
             // $("#ar_debtor_name").val($(this));
