@@ -7,7 +7,7 @@ from django.utils import timezone
 from timeit import default_timer
 from itertools import chain
 
-from .forms import AccountReceivableForm, PaymentToAccountReceivableForm
+from .forms import AccountReceivableForm, PaymentToAccountReceivableForm, LoansReceivableForm
 
 #--------------------------------------------------------------------------------------
 # HELPER FUNCTIONS
@@ -17,7 +17,8 @@ def append_forms_to_context(context):
     forms = {
         'account_receivable': AccountReceivableForm(auto_id=False),
         'sales': AccountReceivableForm(auto_id=False),
-        'add_payment_to_account_receivable': PaymentToAccountReceivableForm(auto_id=False),
+        'payment_to_account_receivable': PaymentToAccountReceivableForm(auto_id=False),
+        'loans_receivable': LoansReceivable(auto_id=False),
     }
     return {**context, **forms}
 
@@ -117,7 +118,7 @@ def transact(request, acc_name):
 
     context = append_forms_to_context(context)
     print(default_timer()-start)
-    return render(request, 'entry/transact2.html', context)
+    return render(request, 'entry/transact.html', context)
 
 
 def get_debtors(request, acc_name, debtor_name):
@@ -143,31 +144,7 @@ def get_debtors(request, acc_name, debtor_name):
 
     context = append_forms_to_context(context)
     print(default_timer()-start)
-    return render(request, 'entry/transact2.html', context)
-
-# def transact(request, account_id):
-#     start = default_timer()
-#     accounts = get_list_or_404(Accounts)
-
-#     #get all receivables of current client
-#     my_client = Client.objects.get(pk=1)
-#     receivables = AccountReceivable.objects.filter(client_id=my_client.id)
-#     buyer_transactions = generate_Btransactions(receivables)
-#     # #get all payment
-#     # PaymentToAccountReceivable.objects.filter(receivable__client_id=1, receivable_id=ARobject.id)
-
-#     context = {
-#         'accounts':accounts,
-#         'template_filenames':generate_filename(accounts),
-#         'receivables':receivables,
-#         'my_client':my_client,
-#         'accountId':account_id,
-#         'buyer_transactions':buyer_transactions,
-#     }
-        
-#     context = append_forms_to_context(context)
-#     print(default_timer()-start)
-#     return render(request, 'entry/transact.html', context)
+    return render(request, 'entry/transact.html', context)
 
 
 def add_account_receivable(request):
@@ -183,7 +160,7 @@ def add_account_receivable(request):
             date = A_receivable.get("date")
             documentNumber = A_receivable.get("documentNumber")
             buyer = A_receivable.get("buyer")
-            amount = A_receivable.get("amount")
+            cash = A_receivable.get("cash")
 
             # GET id of selected CLIENT
             client = Client.objects.get(pk=1)
@@ -205,7 +182,7 @@ def add_account_receivable(request):
                 date=date,
                 documentNumber=documentNumber,
                 buyer=buyer,
-                cash=amount,
+                cash=cash,
                 transaction=transaction,
             )
 
@@ -216,7 +193,7 @@ def add_account_receivable(request):
                 date=date,
                 documentNumber=documentNumber,
                 buyer=buyer,
-                amount=amount,
+                cash=cash,
                 transaction=transaction
             )
             Sale.save()
@@ -242,7 +219,7 @@ def add_sales(request):
             date = A_receivable.get("date")
             documentNumber = A_receivable.get("documentNumber")
             buyer = A_receivable.get("buyer")
-            amount = A_receivable.get("amount")
+            cash = A_receivable.get("cash")
 
             # GET id of selected CLIENT
             client = Client.objects.get(pk=1)
@@ -264,7 +241,7 @@ def add_sales(request):
                 date=date,
                 documentNumber=documentNumber,
                 buyer=buyer,
-                amount=amount,
+                cash=cash,
                 transaction=transaction
             )
             Sale.save()
@@ -315,7 +292,7 @@ def add_payment_to_account_receivable(request):
             cash_entry = CashOnHand(
                 client=client,
                 date=date,
-                amount=cash,
+                cash=cash,
                 transaction=transaction
             )
 
@@ -325,11 +302,87 @@ def add_payment_to_account_receivable(request):
                 receivable=receivable,
                 documentNumber=documentNumber,
                 date=date,
-                cash=cash_entry.amount,
+                cash=cash_entry.cash,
                 transaction=transaction,
             )
 
             payment_to_AR.save()
+
+            print("SUCCESSfully posted to database")
+            messages.success(request, "SUCCESSFULLY POSTED ENTRY")
+            # except:
+            #     transaction.delete()
+            #     print("ERROR WHILE POSTING TO DATABASE")
+            #     messages.success(request, "ERROR WHILE POSTING TO DATABASE")
+        else:
+            messages.warning(request, "INVALID FORM")
+
+    return redirect('/entry/payment_to_account_receivable/')
+
+
+def add_loans_receivable(request):
+
+    if request.method == 'POST':
+        form = LoansReceivableForm(request.POST)
+
+        if form.is_valid():
+            print("FORM IS VALIDATED")
+
+            loans_receivable = form.cleaned_data
+            date = loans_receivable.get("date")
+            documentNumber = loans_receivable.get("documentNumber")
+            loanee = loans_receivable.get("loanee")
+            loanAmount = loans_receivable.get("loanAmount")
+            loanType = loans_receivable.get("loanType")
+            modeOfPayment = loans_receivable.get("modeOfPayment")
+            termsOfPayment = loans_receivable.get("termsOfPayment")
+            interestRate = loans_receivable.get("interestRate")
+            methodOfInterest = loans_receivable.get("methodOfInterest")
+            serviceFee = loans_receivable.get("serviceFee")
+            penaltyRate = loans_receivable.get("penaltyRate")
+
+            # GET id of selected CLIENT
+            client = Client.objects.get(pk=1)
+
+            # GET the name of the Account used
+            account_name = Accounts.objects.get(name=form.__str__())
+
+            # CREATE TRANSACTION
+
+            transaction = Transactions(
+                client=client, 
+                nameOfTransaction=account_name, 
+                date_entry=timezone.now()
+                )
+
+            transaction.save()
+
+            cash_entry = CashOnHand(
+                client=client,
+                date=date,
+                cash=-loanAmount,
+                transaction=transaction
+            )
+
+            cash_entry.save()
+
+            loans_R = LoansReceivable(
+                client=client,
+                date=date,
+                documentNumber=documentNumber,
+                loanee=loanee,
+                loanAmount=loanAmount,
+                loanType=loanType,
+                modeOfPayment=modeOfPayment,
+                termsOfPayment=termsOfPayment,
+                interestRate=interestRate,
+                methodOfInterest=methodOfInterest,
+                serviceFee=serviceFee,
+                penaltyRate=penaltyRate,
+                transaction=transaction,
+            )
+
+            loans_R.save()
 
             print("SUCCESSfully posted to database")
             messages.success(request, "SUCCESSFULLY POSTED ENTRY")

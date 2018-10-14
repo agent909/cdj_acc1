@@ -1,0 +1,81 @@
+<html>
+    <body>
+        <!-- FORMS SECTION -->
+        <form id="loans_receivable_form" action="" method="post" style="display:none;">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-3">
+                        Date of transaction
+                        {{loans_receivable.date}}
+                    </div>
+                    <div class="col-lg-3">
+                        Cash Voucher No.
+                        {{loans_receivable.documentNumber}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        {{loans_receivable.loanee}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        {{loans_receivable.loanAmount}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        &nbsp;Type of Loan
+                        {{loans_receivable.loanType}}
+                    </div>
+                    <div class="col-lg-3">
+                        &nbsp;Terms of Payment
+                        {{loans_receivable.termsOfPayment}}
+                    </div>
+                    <div class="col-lg-3">
+                        &nbsp;Mode of Payment
+                        {{loans_receivable.modeOfPayment}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            {{loans_receivable.interestRate}}
+                            <div class="input-group-append">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        {{loans_receivable.methodOfInterest}}
+                    </div>
+                    <div class="col-lg-2">
+                        {{loans_receivable.serviceFee}}
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                           {{loans_receivable.penaltyRate}}
+                           <div class="input-group-append">
+                               <span class="input-group-text">%</span>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-10"></div>
+                    <div class="col-lg-2">
+                        <button type="submit" class="btn btn-success form-control">
+                            submit
+                        </button>
+                    </div>
+                </div>
+
+                <hr/>
+        </form>
+    </body>
+</html>
