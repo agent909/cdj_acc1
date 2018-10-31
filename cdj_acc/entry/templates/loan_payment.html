@@ -1,0 +1,200 @@
+<html>
+    <body>
+        <!-- FORMS SECTION -->
+        <form id="loan_payment_form" action="{% url 'entry:add_loan_payment' borrower=borrower %}" method="post" style="display:none;">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-3">
+                    Date of transaction
+                    {{loan_payment.date}}
+                </div>
+                <div class="col-lg-3">
+                    Cash Voucher No.
+                    {{loan_payment.documentNumber}}
+                </div>
+            </div>
+
+        <div class="row">
+            <div class="col-lg-4">
+                Firstname
+                <div class="card">
+                    <div class="card-body" data-target="#LoansReceivable_modal" data-toggle="modal">
+                        &nbsp;{{loan.firstname}}
+                    </div>
+                </div>                        
+            </div>
+            <div class="col-lg-4">
+                Middlename
+                <div class="card">
+                    <div class="card-body" data-target="#LoansReceivable_modal" data-toggle="modal">
+                        &nbsp;{{loan.middlename}}
+                        </div>
+                    </div>                        
+                </div>
+                <div class="col-lg-4">
+                    Lastname
+                    <div class="card">
+                        <div class="card-body" data-target="#LoansReceivable_modal" data-toggle="modal">
+                                &nbsp;{{loan.lastname}}
+                        </div>
+                    </div>                        
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    {{loan_payment.paymentAmount}}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    Loan Type
+                    <div class="card">
+                        <div class="card-body">
+                            &nbsp;{{loan.loanType}}
+                        </div>
+                    </div>                        
+                </div>
+                <div class="col-lg-2">
+                    Mode of Payment
+                    <div class="card">
+                        <div class="card-body">
+                            &nbsp;{{loan.modeOfPayment}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    Terms of Payment
+                    <div class="card">
+                        <div class="card-body">
+                            {{loan.termsOfPaymentYear}}&nbsp;Years
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                        &nbsp;
+                    <div class="card">
+                        <div class="card-body">
+                            {{loan.termsOfPaymentMonth}}&nbsp;Months
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    &nbsp;
+                    <div class="card">
+                        <div class="card-body">
+                            {{loan.termsOfPaymentDay}}&nbsp;Days
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-10"></div>
+                <div class="col-lg-2">
+                    <button type="submit" class="btn btn-success form-control">
+                        submit
+                    </button>
+                </div>
+            </div>
+
+            <hr/>
+
+
+            <!-- LOANS RECEIVABLE LEDGER -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan=6 style="text-align:center;">LOANS RECEIVABLE</th>
+                            </tr>
+                            <tr>
+                                <th>TRANSACTION DATE</th>
+                                <th>DR</th>
+                                <th>CR</th>
+                                <th>BALANCE</th>
+                                <td>INTEREST</td>
+                                <td>PENALTY</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for lr in loan_transactions %}
+                            <tr>
+                                <td>{{lr.0}}</td>
+                                <td>{{lr.1}}</td>
+                                <td>{{lr.2}}</td>
+                                <td>{{lr.3}}</td>    
+                                <td>{{lr.4}}</td>  
+                                <td>{{lr.5}}</td>                  
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+
+                <!-- The Modal -->
+                <div class="modal" id="LoansReceivable_modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                    
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Loans</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                    
+                            <!-- Modal body -->
+                            <div class="modal-body">
+
+                                <table id="loans_table" class="table table-striped table-bordered" style="width:100%;">
+                        
+                                    <thead>
+                                        <tr>
+                                            <th>Firstname</th>
+                                            <th>Middlename</th>
+                                            <th>Lastname</th>
+                                            <th>Type of Loan</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        {% for borrower in loans_list %}
+                                        <tr data-dismiss="modal" class="select_borrower" id="{{borrower.0}}_{{borrower.1}}_{{borrower.2}}_{{borrower.3}}">
+                                            <td>{{borrower.0}}</td>
+                                            <td>{{borrower.1}}</td>
+                                            <td>{{borrower.2}}</td>
+                                            <td>{{borrower.3}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Firstname</th>
+                                            <th>Middleename</th>
+                                            <th>Lastname</th>
+                                            <th>Type of Loan</th>
+                                        </tr>
+                                    </tfoot>
+                
+                                </table>                        
+                
+                            </div>
+                    
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                    
+                        </div>
+                    </div>
+                </div>
+
+
+    </body>
+</html>

@@ -10,12 +10,17 @@
       margin-bottom: 10px;
     }
 
+    .card-body {
+        padding: 5px;
+    }
+
   </style>
 
   <script>
     $("document").ready(function(){
         $("#debtors_table").DataTable();
         $("#debtors_table2").DataTable();
+
         {% load entry_filters %}
 
         $("#ar_debtor_name").val("{{debtor_name|replace_x_with:'_, '}}");
@@ -29,6 +34,21 @@
             var name=$(this).text();
             $("#ar_buyer_name").val(name);
             // window.location.href = $("#buyer_5").attr("href");
+        });
+
+        $(".select_borrower2").click(function(){
+            var firstname = $(this).children().eq(0).text();
+            var middlename = $(this).children().eq(1).text();
+            var lastname = $(this).children().eq(2).text();
+            
+            $("#lr_borrower_fname").val(firstname);
+            $("#lr_borrower_mname").val(middlename);
+            $("#lr_borrower_lname").val(lastname);            
+        });
+
+        $(".select_borrower").click(function(){
+            var reference = $(this).attr('id');
+            window.location.href = "/entry/loan_payment/borrower="+reference
         });
 
         var previous_form = "";

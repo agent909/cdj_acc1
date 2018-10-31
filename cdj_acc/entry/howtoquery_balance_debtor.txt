@@ -11,3 +11,141 @@
 
     USE THIS TO MERGE QUERY SETS
         new_list = sorted(chain(list1, list2), key=lambda instance: instance.date)
+
+
+POSTING A LOAN
+
+    Debit on LOANS RECEIVABLE
+    Credit on Service fee, (rate of service fee) of the (Applied Amount)
+    Credit on (Cash On Hand or Cash In Bank)-Service Fee
+
+NOTE!!! 
+    
+    Study structure of LoansReceivable model before CREATING PaymentMODEL for it. 
+    Consider the Merging Queries
+
+KANUSA mabawasan ang CASH IN BANK?
+    pag mag withdrawal of cash
+
+what to display in modal (based on current records)
+if current records are empty 
+    borrower x
+    amount applied x
+    type of loan x 
+    balance x
+    due date
+    penalty
+    amount due
+
+x   get all loans and payments
+x   merge and sort by date (to put all the transactions in order)
+
+/   get all loans by borrower name and type of loan (for selecting in modal)
+
+
+how to calculate amount due
+    get all loan of borrower through name and type of loan
+    get all loan payment of borrower through name and type of loan
+    merge them
+    sort by transaction date
+   ???     UPON Payment make sure that the amount paid will satisfy the penalty and the interest
+
+--------------------------------------------------------------------------------    
+
+to pay for LOAN
+    get all existing loan transaction of a specific borrower 
+        >use borrower name and loan type for FILTER
+    get all payments of a borrower
+        >use loan FILTER
+    
+    store the details of loan
+
+    merge loan and payments
+    sort by date
+
+    TRAVERSE to the NEW QUERYSET
+    
+    for every item
+        check if it is Loan or payment
+        if Loan then
+            if variable for loan is empty:
+                "empty"
+                store all details except ServiceFee
+                termsOfpayment = (year*12*30)+(month*30)+days
+                if mode of payment is monthly:
+                    monthly payment is equal to  >>> amountApplied/(termsOfpayment/30) #ROUND UP TO 2 decimal spaces only
+                elif(mode of payment is semi-monthly):
+                    monthly payment is equal to  >>> amountApplied/(termsOfpayment/15)
+                else(mode of payment is weekly):
+                    monthly payment is equal to  >>> amountApplied/(termsOfpayment/7)
+
+            else:
+                get current balance plus interest plus penalties of previous loan
+                store current loan and all details except service fee
+                termsOfpayment = (year*12*30)+(month*30)+days
+                #CASH OUT LANG ANG MA APEKTOHAN
+        else:
+            #get the difference of paymentDate and previousPaymentdate in days
+            (NOTE: use different vars for "previousPaymentdate" and "paymentDate" and "DueDate")
+            #if previousPayment is empty then
+            #store the difference of paymentDate and loanDate in days
+
+            day_advance = duedate - paymentdate
+            if(day_advance<0):     #THIS MEANS PENALTY
+                payment_lapsed = int(day_advance/mode_of_payment_days)*-1
+                if payment_lapsed == 0:
+                    payment_lapsed=1
+                penalty = (payment_lapsed*principal_payment)+(principal_interest*payment_lapsed)
+            else:
+                penalty=0
+
+            interest = [ (mode_of_payment_days)-(day_advance) ]*DailyInterest >> payment for interest
+            deduction_to_principal = cash-interest-penalty
+            balance-=deduction_to_principal
+
+            update the based on mode of payment DueDate
+
+            set a variable for payment, interest, interest+payment, balance
+
+CASES of payement
+    advance days before due
+    advance pay for the next due
+    late
+    exact date
+
+
+---------------------------------------------------------------------------------
+    initially a loan does not have a payment so leave the table of transactions empty
+
+
+    case 1: Ordered Entry
+        No problem with penalty implementation,
+        program will not accept if interest and penalty is not satisfied.
+
+    case 2: Unordered Entry
+        Unwanted penalty and interest is added
+        program will not program will not accept if interest and penalty is not satisfied.
+
+---------------------------------------------------------------------------------
+    try:
+        loans = LoansReceivable.objects.filter(
+            client_id=1,
+            firstname="firstname",
+            middlename="middlename",
+            lastname="lastname",
+            loanType="loanType"
+            )[0]
+    except IndexError:
+        messages.warning(request, "BORROWER "+lastname+", "+firstname+" with "+loanType+" loan DOES NOT EXIST")
+        return redirect('/entry/loan_payment/')
+
+    try:
+        Payloans = LoanPayment.objects.filter(
+            client_id=1,
+            loan__firstname="firstname",
+            loan__middlename="middlename",
+            loan__lastname="lastname",
+            loan__loanType="loanType"
+        )
+    except:
+----------------------------------------------------------------------------------

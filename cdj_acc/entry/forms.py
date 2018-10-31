@@ -59,7 +59,7 @@ class PaymentToAccountReceivableForm(forms.Form):
     }))
     debtor = forms.CharField(max_length=180, widget=forms.TextInput(attrs={
         'class':'form-control',
-        'placeholder':'Loanee',
+        'placeholder':'Debtor',
         'data-target':'#AReceivable_debtor_names_modal',
         'data-toggle':'modal',
         'id':'ar_debtor_name',
@@ -82,16 +82,30 @@ class LoansReceivableForm(forms.Form):
         'class':'form-control form-control-sm',
         'placeholder':'Doc No.'
     }))
-    loanee = forms.CharField(max_length=180, widget=forms.TextInput(attrs={
+    firstname = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
         'class':'form-control',
-        'placeholder':'Debtor',
-        'data-target':'#LoansReceivable_loanee_names_modal',
+        'placeholder':'firstname',
+        'data-target':'#LoansReceivable_modal2',
         'data-toggle':'modal',
-        'id':'ar_debtor_name',
+        'id':'lr_borrower_fname',
     }))
-    loanAmount = forms.DecimalField(max_digits=12, decimal_places=2, widget=forms.NumberInput(attrs={
+    middlename = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
         'class':'form-control',
-        'placeholder':'Loan Amount',
+        'placeholder':'middlename',
+        'data-target':'#LoansReceivable_modal2',
+        'data-toggle':'modal',
+        'id':'lr_borrower_mname',
+    }))
+    lastname = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
+        'class':'form-control',
+        'placeholder':'lastname',
+        'data-target':'#LoansReceivable_modal2',
+        'data-toggle':'modal',
+        'id':'lr_borrower_lname',
+    }))
+    amountApplied = forms.DecimalField(max_digits=12, decimal_places=2, widget=forms.NumberInput(attrs={
+        'class':'form-control',
+        'placeholder':'Amount Applied',
     }))
     loanType = forms.ChoiceField(
         choices=[
@@ -102,26 +116,35 @@ class LoansReceivableForm(forms.Form):
         ], widget=forms.Select(attrs={
             'class':'form-control',
         }))
-    termsOfPayment = forms.ChoiceField(
+    modeOfPayment = forms.ChoiceField(
         choices=[
             ['monthly','monthly'],
             ['semi-monthly','semi-monthly'],
-            ['weekly','weekly']
+            ['weekly','weekly'],
+            ['daily','daily']
         ], widget=forms.Select(attrs={
             'class':'form-control',
         }))
-    modeOfPayment = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={
+    termsOfPaymentYear = forms.IntegerField(min_value=0, widget=forms.NumberInput(attrs={
         'class':'form-control',
-        'placeholder':'No. of Years',
+        'placeholder':'Years',
+    }))
+    termsOfPaymentMonth = forms.IntegerField(min_value=0, widget=forms.NumberInput(attrs={
+        'class':'form-control',
+        'placeholder':'Months',
+    }))
+    termsOfPaymentDay = forms.IntegerField(min_value=0, widget=forms.NumberInput(attrs={
+        'class':'form-control',
+        'placeholder':'Days',
     }))
     interestRate = forms.DecimalField(max_digits=4, decimal_places=2, widget=forms.NumberInput(attrs={
         'class':'form-control',
-        'placeholder':'Interest Rate',
+        'placeholder':'Rate Of Interest',
     }))
     methodOfInterest = forms.ChoiceField(
         choices=[
             ['deminishing','Deminishing'],
-            ['flat','Flat']
+            ['straight','Straight line']
         ], widget=forms.Select(attrs={
             'class':'form-control',
         }))
@@ -131,28 +154,60 @@ class LoansReceivableForm(forms.Form):
     }))
     penaltyRate = forms.DecimalField(max_digits=4, decimal_places=2, widget=forms.NumberInput(attrs={
         'class':'form-control',
-        'placeholder':'Penalty Rate',
+        'placeholder':'Rate of Penalty',
     }))
 
     def __str__(self):
         return 'Loans Receivable'
 
-    # RESERVED FOR INVENTORY FEATURE
-    
-    # item = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
-    #     'class':'form-control',
-    #     'name':'item_name',
-    #     'id':'TESTid2', #TRACE THIS ONE and change the ID
-    #     'placeholder':'Item',
-    # }))
-    # quantity = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
-    #     'class':'form-control',
-    #     'name':'quantity',
-    #     'placeholder':'Quanity'
-    # }))
-    # price = forms.DecimalField(max_digits=10, decimal_places=2, widget=forms.NumberInput(attrs={
-    #     'class':'form-control',
-    #     'name':'price',
-    #     'palceholder':'Price',
-    # }))
 
+class LoanPaymentForm(forms.Form):
+    date = forms.DateField(widget=forms.DateInput(attrs={
+        'class':'form-control form-control-sm',
+        'type':'date',
+    }))
+    documentNumber = forms.IntegerField(widget=forms.NumberInput(attrs={
+        'class':'form-control form-control-sm',
+        'placeholder':'Doc No.'
+    }))
+    # firstname = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
+    #     'class':'form-control',
+    #     'placeholder':'firstname',
+    #     'data-target':'#LoansReceivable_modal',
+    #     'data-toggle':'modal',
+    #     'id':'lp_borrower_fname',
+    #     'visibility','hidden',
+    # }))
+    # middlename = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
+    #     'class':'form-control',
+    #     'placeholder':'middlename',
+    #     'data-target':'#LoansReceivable_modal',
+    #     'data-toggle':'modal',
+    #     'id':'lp_borrower_mname',
+    #     'visibility','hidden',
+    # }))
+    # lastname = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
+    #     'class':'form-control',
+    #     'placeholder':'lastname',
+    #     'data-target':'#LoansReceivable_modal',
+    #     'data-toggle':'modal',
+    #     'id':'lp_borrower_lname',
+    #     'visibility','hidden',
+    # }))
+    paymentAmount = forms.DecimalField(max_digits=12, decimal_places=2, widget=forms.NumberInput(attrs={
+        'class':'form-control',
+        'placeholder':'Amount of Payment',
+    }))
+    # loanType = forms.ChoiceField(
+    #     choices=[
+    #         ['regular','Regular loan'],
+    #         ['business','Business loan'],
+    #         ['educational','Educational loan'],
+    #         ['petty cash','Petty cash loan']
+    #     ], widget=forms.Select(attrs={
+    #         'class':'form-control',
+    #         'visibility','hidden',
+    #     }))
+
+    def __str__(self):
+        return 'Loan Payment'

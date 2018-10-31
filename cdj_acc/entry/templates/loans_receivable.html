@@ -1,7 +1,7 @@
 <html>
     <body>
         <!-- FORMS SECTION -->
-        <form id="loans_receivable_form" action="" method="post" style="display:none;">
+        <form id="loans_receivable_form" action="{% url 'entry:add_loans_receivable' %}" method="post" style="display:none;">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-3">
@@ -15,14 +15,20 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-12">
-                        {{loans_receivable.loanee}}
+                    <div class="col-lg-4">
+                        {{loans_receivable.firstname}}
+                    </div>
+                    <div class="col-lg-4">
+                        {{loans_receivable.middlename}}
+                    </div>
+                    <div class="col-lg-4">
+                        {{loans_receivable.lastname}}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-lg-12">
-                        {{loans_receivable.loanAmount}}
+                        {{loans_receivable.amountApplied}}
                     </div>
                 </div>
 
@@ -31,16 +37,24 @@
                         &nbsp;Type of Loan
                         {{loans_receivable.loanType}}
                     </div>
-                    <div class="col-lg-3">
-                        &nbsp;Terms of Payment
-                        {{loans_receivable.termsOfPayment}}
-                    </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         &nbsp;Mode of Payment
                         {{loans_receivable.modeOfPayment}}
                     </div>
+                    <div class="col-lg-2">
+                        &nbsp;Terms of Payment
+                        {{loans_receivable.termsOfPaymentYear}}
+                    </div>
+                    <div class="col-lg-2">
+                        &nbsp;
+                        {{loans_receivable.termsOfPaymentMonth}}
+                    </div>
+                    <div class="col-lg-2">
+                        &nbsp;
+                        {{loans_receivable.termsOfPaymentDay}}
+                    </div>
                 </div>
-
+                
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="input-group">
@@ -53,8 +67,13 @@
                     <div class="col-lg-2">
                         {{loans_receivable.methodOfInterest}}
                     </div>
-                    <div class="col-lg-2">
-                        {{loans_receivable.serviceFee}}
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            {{loans_receivable.serviceFee}}
+                            <div class="input-group-append">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="input-group">
@@ -65,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-lg-10"></div>
                     <div class="col-lg-2">
@@ -77,5 +96,64 @@
 
                 <hr/>
         </form>
+
+                <!-- The Modal -->
+                <div class="modal" id="LoansReceivable_modal2">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                    
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Loans</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                    
+                            <!-- Modal body -->
+                            <div class="modal-body">
+
+                                <table id="loans_table" class="table table-striped table-bordered" style="width:100%;">
+                        
+                                    <thead>
+                                        <tr>
+                                            <th>Firstname</th>
+                                            <th>Middlename</th>
+                                            <th>Lastname</th>
+                                            <th>Type of Loan</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        {% for borrower in loans_list %}
+                                        <tr class="select_borrower2" data-dismiss="modal">
+                                            <td>{{borrower.0}}</td>
+                                            <td>{{borrower.1}}</td>
+                                            <td>{{borrower.2}}</td>
+                                            <td>{{borrower.3}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Firstname</th>
+                                            <th>Middleename</th>
+                                            <th>Lastname</th>
+                                            <th>Type of Loan</th>
+                                        </tr>
+                                    </tfoot>
+                
+                                </table>                        
+                
+                            </div>
+                    
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                    
+                        </div>
+                    </div>
+                </div>
+    
+
     </body>
 </html>

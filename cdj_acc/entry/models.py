@@ -53,7 +53,7 @@ class Sales(models.Model):
         return str(self.transaction.id)+". "+self.buyer+" "+str(self.cash)
 
 
-class CashOnHand(models.Model):
+class CashOnHand(models.Model): 
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     date = models.DateField('Document Date')
     cash = models.DecimalField(max_digits=12, decimal_places=2, default=0)
@@ -77,11 +77,15 @@ class LoansReceivable(models.Model):
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     date = models.DateField("Document Date")
     documentNumber = models.PositiveIntegerField()
-    loanee = models.CharField(max_length=180)
-    loanAmount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    firstname = models.CharField(max_length=50)
+    middlename = models.CharField(max_length=50)
+    lastname = models.CharField(max_length=50)
+    amountApplied = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     loanType = models.CharField(max_length=20)
     modeOfPayment = models.CharField(max_length=15)
-    termsOfPayment = models.PositiveIntegerField()
+    termsOfPaymentYear = models.PositiveIntegerField(default=0)
+    termsOfPaymentMonth = models.PositiveIntegerField(default=0)
+    termsOfPaymentDay = models.PositiveIntegerField(default=0)
     interestRate = models.DecimalField(max_digits=4, decimal_places=2, default=0)
     methodOfInterest = models.CharField(max_length=10)
     serviceFee = models.DecimalField(max_digits=12, decimal_places=2, default=0)
@@ -89,4 +93,29 @@ class LoansReceivable(models.Model):
     transaction = models.ForeignKey(Transactions, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.loanee+" "+str(self.loanAmount)
+        return self.lastname+", "+self.firstname+" "+str(self.amountApplied)
+
+
+class ServiceFee(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.PROTECT)
+    date = models.DateField("Document Date")
+    cash = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    transaction = models.ForeignKey(Transactions, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.cash
+
+
+class LoanPayment(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.PROTECT)
+    loan = models.ForeignKey(LoansReceivable, on_delete=models.CASCADE)
+    date = models.DateField("Document Date")
+    documentNumber = models.PositiveIntegerField()
+    firstname = models.CharField(max_length=50)
+    middlename = models.CharField(max_length=50)
+    lastname = models.CharField(max_length=50)
+    paymentAmount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    transaction = models.ForeignKey(Transactions, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.lastname+", "+self.firstname+" "+str(self.paymentAmount)
