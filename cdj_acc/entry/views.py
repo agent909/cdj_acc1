@@ -126,32 +126,59 @@ def get_loan_transactions(request, borrower):
             # regular_interest_payment =( (entry.amountApplied*(entry.interestRate/100))/paymentTerms_days )*payment_mode
             daily_interest = entry.amountApplied*(entry.interestRate/100)*Decimal(1/360)
         else:
+            if(current_loan.methodOfInterest=='deminishing'):
+                day_advance = (dueDate-entry.date).days
+                if(day_advance<0):
+                    payment_lapsed = 1+int(day_advance/payment_mode)*-1
+                    print("asdf",day_advance,payment_mode,-day_advance%payment_mode)
+                    penalty = (payment_lapsed*regular_payment*(current_loan.penaltyRate/100))
+                    interest = (-day_advance%payment_mode)*daily_interest+(regular_interest_payment*payment_lapsed)
+                else:
+                    penalty = 0
+                    payment_lapsed = 0
+                    interest = (payment_mode-day_advance)*daily_interest+(regular_interest_payment*payment_lapsed)
 
-            day_advance = (dueDate-entry.date).days
-            if(day_advance<0):
-                payment_lapsed = 1+int(day_advance/payment_mode)*-1
-                
-                penalty = (payment_lapsed*regular_payment*(current_loan.penaltyRate/100))
-                interest = (-day_advance)*daily_interest+(regular_interest_payment*payment_lapsed)
+
+                #Very advanced payment
+                if(interest<0):
+                    interest = 0
+
+                deduction_to_principal = entry.paymentAmount-interest-penalty
+                if(round(deduction_to_principal,2)==0):
+                    deduction_to_principal=0
+                balance -= deduction_to_principal
+                dueDate+=timedelta(days=payment_mode+payment_mode*payment_lapsed)
+
+                lr_ledger += [  [entry.date, entry.paymentAmount, 0, round(deduction_to_principal, 2), round(balance, 2), round(interest,2), round(penalty, 2)]  ]
+                print(entry.date, "", round(deduction_to_principal, 2), round(balance, 2), round(interest,2), round(penalty, 2))
+                print(dueDate)
             else:
-                penalty = 0
-                payment_lapsed = 0
-                interest = (payment_mode-day_advance)*daily_interest+(regular_interest_payment*payment_lapsed)
+                daily_interest = balance*(current_loan.interestRate/100)*Decimal(1/360)
+                day_advance = (dueDate-entry.date).days
+                if(day_advance<0):
+                    payment_lapsed = 1+int(day_advance/payment_mode)*-1
+                    penalty = (payment_lapsed*regular_payment*(current_loan.penaltyRate/100))
+                    interest = (-day_advance%payment_mode)*daily_interest+(daily_interest*payment_mode*payment_lapsed)
+                else:
+                    penalty = 0
+                    payment_lapsed = 0
+                    interest = (payment_mode-day_advance)*daily_interest+(daily_interest*payment_mode*payment_lapsed)
 
 
-            #Very advanced payment
-            if(interest<0):
-                interest = 0
+                #Very advanced payment
+                if(interest<0):
+                    interest = 0
 
-            deduction_to_principal = entry.paymentAmount-interest-penalty-(regular_interest_payment*payment_lapsed)
-            if(round(deduction_to_principal,2)==0):
-                deduction_to_principal=0
-            balance -= deduction_to_principal
-            dueDate+=timedelta(days=payment_mode+payment_mode*payment_lapsed)
+                deduction_to_principal = entry.paymentAmount-interest-penalty
+                if(round(deduction_to_principal,2)==0):
+                    deduction_to_principal=0
+                balance -= deduction_to_principal
+                dueDate+=timedelta(days=payment_mode+payment_mode*payment_lapsed)
 
-            lr_ledger += [  [entry.date, "", round(deduction_to_principal, 2), round(balance, 2), round(interest,2), round(penalty, 2)]  ]
-            print(entry.date, "", round(deduction_to_principal, 2), round(balance, 2), round(interest,2), round(penalty, 2))
-            print(dueDate)
+                lr_ledger += [  [entry.date, entry.paymentAmount, 0, round(deduction_to_principal, 2), round(balance, 2), round(interest,2), round(penalty, 2)]  ]
+                print(entry.date, "", round(deduction_to_principal, 2), round(balance, 2), round(interest,2), round(penalty, 2))
+                print(dueDate)
+
 
     return lr_ledger
 #--------------------------------------------------------------------------------------

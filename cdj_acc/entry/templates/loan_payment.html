@@ -1,7 +1,7 @@
 <html>
     <body>
         <!-- FORMS SECTION -->
-        <form id="loan_payment_form" action="{% url 'entry:add_loan_payment' borrower=borrower %}" method="post" style="display:none;">
+        <form id="loan_payment_form" action="/entry/forms/loan_payment/borrower={{borrower}}" method="post" style="display:none;">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-3">
@@ -90,6 +90,41 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-lg-3">
+                    Rate of Interest
+                    <div class="card">
+                        <div class="card-body">
+                            {{loan.interestRate}}&nbsp;%
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    &nbsp;
+                    <div class="card">
+                        <div class="card-body">
+                            {{loan.methodOfInterest}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    Service Fee
+                    <div class="card">
+                        <div class="card-body">
+                            {{loan.serviceFee}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    Rate of Penalty
+                    <div class="card">
+                        <div class="card-body">
+                            {{loan.penaltyRate}}&nbsp;%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="row">
                 <div class="col-lg-10"></div>
@@ -104,15 +139,16 @@
 
 
             <!-- LOANS RECEIVABLE LEDGER -->
-            <div class="row">
+            <div class="row" >
                 <div class="col-lg-12">
-                    <table class="table table-bordered">
+                    <table id='borrower_table' class="table table-bordered" style="width:100%;">
                         <thead>
                             <tr>
                                 <th colspan=6 style="text-align:center;">LOANS RECEIVABLE</th>
                             </tr>
                             <tr>
                                 <th>TRANSACTION DATE</th>
+                                <th>CASH</th>
                                 <th>DR</th>
                                 <th>CR</th>
                                 <th>BALANCE</th>
@@ -120,7 +156,7 @@
                                 <td>PENALTY</td>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style="height:100px; overflow-y:scroll">
                         {% for lr in loan_transactions %}
                             <tr>
                                 <td>{{lr.0}}</td>
@@ -128,7 +164,8 @@
                                 <td>{{lr.2}}</td>
                                 <td>{{lr.3}}</td>    
                                 <td>{{lr.4}}</td>  
-                                <td>{{lr.5}}</td>                  
+                                <td>{{lr.5}}</td>
+                                <td>{{lr.6}}</td>                  
                             </tr>
                         {% endfor %}
                         </tbody>
