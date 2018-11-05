@@ -13,6 +13,11 @@ from .forms import AccountReceivableForm, PaymentToAccountReceivableForm, LoansR
 #--------------------------------------------------------------------------------------
 # HELPER FUNCTIONS
 
+#catch page not found
+def get_404_1(request):
+    messages.warning(request, "SELECT BORROWER FIRST")
+    return redirect("/entry/loan_payment/")
+
 # ADD ALL THE DJANGO FORMS HERE
 def append_forms_to_context(context):
     forms = {

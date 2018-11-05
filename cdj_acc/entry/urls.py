@@ -13,4 +13,5 @@ urlpatterns = [
     path('forms/payment_to_account_receivable/', views.add_payment_to_account_receivable, name='add_payment_to_account_receivable'),
     path('forms/loans_receivable/', views.add_loans_receivable, name='add_loans_receivable'),
     path('forms/loan_payment/borrower=<slug:borrower>', views.add_loan_payment, name='add_loan_payment'),
+    path('forms/loan_payment/borrower=', views.get_404_1),
 ]
