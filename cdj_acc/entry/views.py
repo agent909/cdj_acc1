@@ -131,7 +131,7 @@ def get_loan_transactions(request, borrower):
             # regular_interest_payment =( (entry.amountApplied*(entry.interestRate/100))/paymentTerms_days )*payment_mode
             daily_interest = entry.amountApplied*(entry.interestRate/100)*Decimal(1/360)
         else:
-            if(current_loan.methodOfInterest=='deminishing'):
+            if(current_loan.methodOfInterest=='straight'):
                 day_advance = (dueDate-entry.date).days
                 if(day_advance<0):
                     payment_lapsed = 1+int(day_advance/payment_mode)*-1

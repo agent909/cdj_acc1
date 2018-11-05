@@ -115,6 +115,7 @@ class LoansReceivableForm(forms.Form):
             ['petty cash','Petty cash loan']
         ], widget=forms.Select(attrs={
             'class':'form-control',
+            'id':'lr_ltype',
         }))
     modeOfPayment = forms.ChoiceField(
         choices=[

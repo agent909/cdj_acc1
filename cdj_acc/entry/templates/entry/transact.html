@@ -41,15 +41,33 @@
             var firstname = $(this).children().eq(0).text();
             var middlename = $(this).children().eq(1).text();
             var lastname = $(this).children().eq(2).text();
-            
+            var loanType = $(this).children().eq(3).text();
+
             $("#lr_borrower_fname").val(firstname);
             $("#lr_borrower_mname").val(middlename);
-            $("#lr_borrower_lname").val(lastname);            
+            $("#lr_borrower_lname").val(lastname);
+            $("#lr_ltype").css({'visibility':'hidden', 'position':'absolute'})
+            $("#lr_ltype_card_body").text(loanType);   
+            $("#lr_ltype_card").css({'visibility':'visible', 'position':'unset'})
+            $("#lr_ltype").val(loanType);   
         });
 
         $(".select_borrower").click(function(){
             var reference = $(this).attr('id');
             window.location.href = "/entry/loan_payment/borrower="+reference
+        });
+
+        $("#new_lr_name").click(function(){
+            var firstname = $("#new_lr_fname").val();
+            var middlename = $("#new_lr_mname").val();
+            var lastname = $("#new_lr_lname").val();
+
+            $("#lr_borrower_fname").val(firstname);
+            $("#lr_borrower_mname").val(middlename);
+            $("#lr_borrower_lname").val(lastname);
+
+            $("#lr_ltype").css({'visibility':'visible', 'position':'unset'})
+            $("#lr_ltype_card").css({'visibility':'hidden', 'position':'absolute'})
         });
 
         var previous_form = "";

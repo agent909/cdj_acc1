@@ -36,6 +36,11 @@
                     <div class="col-lg-4">
                         &nbsp;Type of Loan
                         {{loans_receivable.loanType}}
+                        <div class="card" id="lr_ltype_card" style="visibility: hidden; position:absolute;">
+                            <div class="card-body" id="lr_ltype_card_body">
+                                
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-2">
                         &nbsp;Mode of Payment
@@ -100,7 +105,7 @@
                 <!-- The Modal -->
                 <div class="modal" id="LoansReceivable_modal2">
                     <div class="modal-dialog">
-                        <div class="modal-content">
+                        <div class="modal-content" style="width:150%;">
                     
                             <!-- Modal Header -->
                             <div class="modal-header">
@@ -141,12 +146,31 @@
                                         </tr>
                                     </tfoot>
                 
-                                </table>                        
+                                </table>
+                                
+                                <div class="row">
+                                    <div class="col-lg-3" style="font-weight: bold;">
+                                        &nbsp;&nbsp;New Borrower:
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <input id="new_lr_fname" type="text" class="form-control" placeholder="Firstname">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input id="new_lr_mname" type="text" class="form-control" placeholder="Middlename">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input id="new_lr_lname" type="text" class="form-control" placeholder="Lastname">
+                                    </div>
+                                </div>
+
                 
                             </div>
                     
                             <!-- Modal footer -->
                             <div class="modal-footer">
+                                <button id="new_lr_name" type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
                     
