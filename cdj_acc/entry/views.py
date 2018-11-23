@@ -110,11 +110,16 @@ def get_loan_transactions(request, borrower):
 
     for entry in transactions:        
         if(entry.__class__.__name__=='LoansReceivable'):
+            
+            if(current_loan==""):
+                current_loan = entry
+
+            lr_ledger += [  [ entry.date, entry.amountApplied, round(entry.amountApplied-balance-balance*(current_loan.interestRate/100), 2), 0, entry.amountApplied, 0]  ]
+            paymentTerms_days = (entry.termsOfPaymentYear*12*30)+(entry.termsOfPaymentMonth*30)+entry.termsOfPaymentDay
             current_loan = entry
             balance = entry.amountApplied
             previous_paymentDate = ""
-            lr_ledger += [  [ entry.date, entry.amountApplied, 0, entry.amountApplied, 0, 0]  ]
-            paymentTerms_days = (entry.termsOfPaymentYear*12*30)+(entry.termsOfPaymentMonth*30)+entry.termsOfPaymentDay
+
             if(entry.modeOfPayment=="monthly"):
                 payment_mode=30
             elif(entry.modeOfPayment=="semi-monthly"):
